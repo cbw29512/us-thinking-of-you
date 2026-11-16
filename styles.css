@@ -259,3 +259,19 @@ input {
 }
 
 .toast.show { opacity: 1; }
+
+/* Keep upright on stand */
+@media (orientation: landscape) {
+  #app {
+    transform: rotate(90deg);
+    transform-origin: center center;
+    width: 100vh;
+    height: 100vw;
+    max-width: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vh;
+    margin-top: -50vw;
+  }
+}
