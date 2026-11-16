@@ -253,7 +253,8 @@ function renderPair() {
       <div style="background:#1a1a1a; border-radius:10px; padding:10px 12px; margin:16px 0; font-size:13px; word-break:break-all; color:#ccc;">
         ${pairUrl}
       </div>
-      <button class="big-button" id="copyBtn">Copy link</button>
+      <button class="big-button" id="shareBtn">Share link</button>
+      <button class="secondary" id="copyBtn">Copy link</button>
       
       <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="5" inputmode="numeric">
       <button class="big-button" id="joinBtn">Connect with code</button>
@@ -275,6 +276,22 @@ function renderPair() {
       });
     }
   }, 50);
+
+  document.getElementById("shareBtn").onclick = async () => {
+    const shareData = {
+      title: "Us — Thinking of You",
+      text: "Tap to connect with me",
+      url: pairUrl
+    };
+    if (navigator.share && navigator.canShare?.(shareData)) {
+      try {
+        await navigator.share(shareData);
+        showToast("Shared");
+      } catch (e) {}
+    } else {
+      window.location.href = `mailto:?subject=${encodeURIComponent("Connect with me")}&body=${encodeURIComponent("Tap this link to connect:\n\n" + pairUrl)}`;
+    }
+  };
 
   document.getElementById("copyBtn").onclick = () => {
     navigator.clipboard.writeText(pairUrl).then(() => {
