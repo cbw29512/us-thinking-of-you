@@ -194,6 +194,27 @@ function handleIncoming(event) {
       state.screen = "result";
       render();
     }
+  } else if (event.type === "dice") {
+    showToast(`They rolled a ${event.payload?.result}`);
+    if (event.payload?.result === 20) flashScreen("green");
+    if (event.payload?.result === 1) flashScreen("red");
+  }
+}
+
+function flashScreen(color) {
+  const flash = document.createElement("div");
+  flash.style.cssText = `
+    position: fixed; inset: 0; pointer-events: none; z-index: 40;
+    background: ${color === "green" ? "#22c55e" : "#ef4444"};
+    opacity: 0; animation: flash 0.6s ease;
+  `;
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 600);
+  if (!document.getElementById("flash-anim")) {
+    const s = document.createElement("style");
+    s.id = "flash-anim";
+    s.textContent = `@keyframes flash { 0% { opacity: 0.7; } 100% { opacity: 0; } }`;
+    document.head.appendChild(s);
   }
 }
 
@@ -224,6 +245,62 @@ function explodeHearts() {
     `;
     document.head.appendChild(style);
   }
+}
+
+function rollDice() {
+  const result = Math.floor(Math.random() * 20) + 1;
+  const die = document.createElement("div");
+  die.textContent = result;
+  die.style.cssText = `
+    position: fixed; left: 50%; top: 30%;
+    width: 70px; height: 70px; margin-left: -35px;
+    background: #1a1a1a; border: 2px solid #e63946; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 700; color: white;
+    pointer-events: none; z-index: 35;
+  `;
+  document.body.appendChild(die);
+
+  let y = 0, vy = -8, x = 0, vx = (Math.random() - 0.5) * 6;
+  const gravity = 0.5;
+  const bounce = 0.6;
+  let frames = 0;
+
+  function animate() {
+    frames++;
+    vy += gravity;
+    y += vy;
+    x += vx;
+
+    if (y > 200) {
+      y = 200;
+      vy *= -bounce;
+      vx *= 0.9;
+      if (Math.abs(vy) < 1) {
+        die.remove();
+        if (result === 20) {
+          flashScreen("green");
+          showToast("NAT 20!");
+          vibrate([40, 30, 40, 30, 80]);
+        } else if (result === 1) {
+          flashScreen("red");
+          showToast("NAT 1");
+          vibrate([80, 40, 80]);
+        } else {
+          showToast(`Rolled ${result}`);
+          vibrate(30);
+        }
+        sendEvent("dice", { result });
+        return;
+      }
+    }
+    if (x < -120 || x > 120) vx *= -0.8;
+
+    die.style.transform = `translate(${x}px, ${y}px) rotate(${x * 2}deg)`;
+    if (frames < 180) requestAnimationFrame(animate);
+    else die.remove();
+  }
+  animate();
 }
 
 const app = document.getElementById("app");
@@ -319,10 +396,13 @@ function renderMain() {
         </div>
         <div class="status" id="rpsStatus" style="margin-top:2px; font-size:12.5px;">Pick one</div>
       </div>
+
+      <button class="secondary" id="diceBtn" style="margin-top:8px;">Roll d20</button>
     </div>
   `;
 
   document.getElementById("heartBtn").onclick = sendHeart;
+  document.getElementById("diceBtn").onclick = rollDice;
 
   document.querySelectorAll(".mood-btn").forEach(btn => {
     btn.onclick = () => {
