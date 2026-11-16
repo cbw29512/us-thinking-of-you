@@ -176,11 +176,11 @@ function startPolling() {
 function handleIncoming(event) {
   if (event.type === "presence") return;
   if (event.type === "heart") {
-    showToast("They sent a heart ❤️");
-    vibrate([40, 30, 40]);
+    showToast("I love you ❤️");
+    vibrate([60, 40, 60, 40, 60]);
     const status = document.getElementById("heartStatus");
-    if (status) status.textContent = "Heart received ❤️";
-    burstHearts();
+    if (status) status.textContent = "I love you ❤️";
+    explodeHearts();
   } else if (event.type === "mood") {
     showToast(`They're feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
@@ -194,29 +194,29 @@ function handleIncoming(event) {
   }
 }
 
-function burstHearts() {
-  for (let i = 0; i < 8; i++) {
+function explodeHearts() {
+  for (let i = 0; i < 24; i++) {
     const h = document.createElement("div");
     h.textContent = "❤️";
     h.style.cssText = `
       position: fixed;
-      left: ${30 + Math.random() * 40}%;
-      top: ${40 + Math.random() * 20}%;
-      font-size: ${28 + Math.random() * 24}px;
+      left: ${Math.random() * 90}%;
+      top: ${Math.random() * 80}%;
+      font-size: ${20 + Math.random() * 40}px;
       pointer-events: none;
       z-index: 30;
-      animation: floatUp 1.4s ease-out forwards;
+      animation: explode 1.6s ease-out forwards;
     `;
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), 1400);
+    setTimeout(() => h.remove(), 1600);
   }
   if (!document.getElementById("heart-anim")) {
     const style = document.createElement("style");
     style.id = "heart-anim";
     style.textContent = `
-      @keyframes floatUp {
-        0% { transform: translateY(0) scale(0.6); opacity: 1; }
-        100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
+      @keyframes explode {
+        0% { transform: scale(0.3) translateY(0); opacity: 1; }
+        100% { transform: scale(1.4) translateY(-80px); opacity: 0; }
       }
     `;
     document.head.appendChild(style);
@@ -347,8 +347,8 @@ function sendHeart() {
   vibrate(45);
   state.lastHeart = Date.now();
   save();
-  status.textContent = "Sent ❤️";
-  showToast("Thinking of you sent");
+  status.textContent = "I love you sent ❤️";
+  showToast("I love you sent");
   sendEvent("heart");
   setTimeout(() => {
     if (document.getElementById("heartStatus")) {
