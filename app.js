@@ -21,6 +21,16 @@ function load() {
     if (saved) Object.assign(state, JSON.parse(saved));
   } catch (e) {}
   if (!state.myCode) state.myCode = generateCode();
+
+  // Auto-pair if someone scanned a QR
+  const params = new URLSearchParams(window.location.search);
+  const pairCode = params.get("pair");
+  if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
+    state.paired = true;
+    state.partnerCode = pairCode;
+    state.screen = "main";
+    history.replaceState({}, "", window.location.pathname);
+  }
 }
 
 function save() {
@@ -152,17 +162,39 @@ function sendHeart() {
 }
 
 function renderPair() {
+  const pairUrl = `${window.location.origin}${window.location.pathname}?pair=${state.myCode}`;
+
   app.innerHTML = `
     <div class="screen">
       <h1>Pair</h1>
-      <p class="subtitle">Share your code.</p>
+      <p class="subtitle">Show this QR or share the code.</p>
+      
+      <div id="qrcode" style="margin: 20px auto; width: 180px; height: 180px; background: white; padding: 8px; border-radius: 12px;"></div>
+      
       <div class="pair-code">${state.myCode}</div>
       <p class="status">Your code</p>
-      <input type="text" placeholder="Enter their code" id="codeInput" maxlength="5" inputmode="numeric">
+      
+      <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="5" inputmode="numeric">
       <button class="big-button" id="joinBtn">Connect</button>
       <button class="secondary" onclick="go('main')">Back</button>
     </div>
   `;
+
+  // Generate QR
+  setTimeout(() => {
+    const qrEl = document.getElementById("qrcode");
+    if (qrEl && typeof QRCode !== "undefined") {
+      qrEl.innerHTML = "";
+      new QRCode(qrEl, {
+        text: pairUrl,
+        width: 164,
+        height: 164,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+  }, 50);
 
   document.getElementById("joinBtn").onclick = () => {
     const code = document.getElementById("codeInput").value.trim();
