@@ -16,24 +16,34 @@ body {
   justify-content: center;
   touch-action: manipulation;
   overscroll-behavior: none;
-  overflow: hidden;
 }
 
 #app {
-  width: 100vh;
-  height: 100vw;
-  max-width: none;
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%);
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -50vh;
-  margin-top: -50vw;
-  transform: rotate(90deg);
-  transform-origin: center center;
+  position: relative;
   overflow: hidden;
+}
+
+/* Force landscape only on phones */
+@media (max-width: 768px) and (orientation: portrait) {
+  #app {
+    width: 100vh;
+    height: 100vw;
+    max-width: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vh;
+    margin-top: -50vw;
+    transform: rotate(90deg);
+    transform-origin: center center;
+  }
 }
 
 .screen {
