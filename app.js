@@ -257,7 +257,7 @@ function renderLanding() {
         One person pays $1.99 a month. Both of you get it.
       </p>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:12px; color:#555; margin-top:12px;">Works on any phone. Add to home screen.</p>
+      <p style="font-size:12px; color:#555; margin-top:12px;">No ads. Private. Works on any phone.</p>
     </div>
   `;
 
