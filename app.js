@@ -93,6 +93,8 @@ function load() {
 
   const pairCode = params.get("pair");
   if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
+    state.paid = true;
+    localStorage.setItem("us-paid", "1");
     state.paired = true;
     state.partnerCode = pairCode;
     state.sharedCode = pairCode;
