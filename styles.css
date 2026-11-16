@@ -7,7 +7,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #0a0a0a;
+  background: #050505;
   color: #f5f5f5;
   min-height: 100vh;
   min-height: 100dvh;
@@ -23,7 +23,7 @@ body {
   max-width: 420px;
   min-height: 100vh;
   min-height: 100dvh;
-  background: #121212;
+  background: linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -34,75 +34,75 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 28px 22px 32px;
-  animation: fadeIn 0.25s ease;
+  padding: 32px 24px 40px;
+  animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 650;
-  letter-spacing: -0.3px;
-  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
-  color: #777;
-  font-size: 14.5px;
-  margin-bottom: 28px;
-  line-height: 1.4;
+  color: #888;
+  font-size: 15px;
+  margin-bottom: 24px;
+  line-height: 1.45;
 }
 
 .heart-button {
-  background: radial-gradient(circle at 30% 30%, #ff6b8a, #e63946 40%, #c1121f);
+  background: radial-gradient(circle at 35% 30%, #ff7a8a, #e63946 45%, #b91c1c);
   color: white;
-  height: 140px;
-  border-radius: 24px;
-  font-size: 56px;
+  height: 150px;
+  border-radius: 28px;
+  font-size: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px auto 8px;
-  width: 140px;
+  margin: 20px auto 12px;
+  width: 150px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 28px rgba(230, 57, 70, 0.3);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 12px 40px rgba(230, 57, 70, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
   user-select: none;
 }
 
 .heart-button:active {
-  transform: scale(0.94);
-  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
+  transform: scale(0.95);
+  box-shadow: 0 8px 24px rgba(230, 57, 70, 0.5);
 }
 
 .heart-button.sent {
-  animation: heartPop 0.4s ease;
+  animation: heartPop 0.45s ease;
 }
 
 @keyframes heartPop {
   0% { transform: scale(1); }
-  40% { transform: scale(1.12); }
+  35% { transform: scale(1.15); }
   100% { transform: scale(1); }
 }
 
 .choice-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin: 20px 0 8px;
+  gap: 12px;
+  margin: 16px 0 8px;
 }
 
 .choice-btn {
   aspect-ratio: 1;
   border: 2px solid #2a2a2a;
-  background: #1c1c1c;
-  border-radius: 18px;
-  font-size: 42px;
+  background: #1a1a1a;
+  border-radius: 20px;
+  font-size: 44px;
   cursor: pointer;
   transition: all 0.12s ease;
   user-select: none;
@@ -112,22 +112,22 @@ h1 {
 .choice-btn.selected {
   border-color: #e63946;
   background: #2a1518;
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
 .mood-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 16px 0;
+  gap: 10px;
+  margin: 12px 0;
 }
 
 .mood-btn {
-  padding: 18px 12px;
+  padding: 16px 10px;
   border: 2px solid #2a2a2a;
-  background: #1c1c1c;
-  border-radius: 16px;
-  font-size: 15px;
+  background: #1a1a1a;
+  border-radius: 14px;
+  font-size: 14.5px;
   font-weight: 550;
   color: #eee;
   cursor: pointer;
@@ -142,40 +142,40 @@ h1 {
 
 .status {
   text-align: center;
-  color: #888;
-  margin-top: 16px;
-  font-size: 14.5px;
-  min-height: 22px;
+  color: #777;
+  margin-top: 12px;
+  font-size: 14px;
+  min-height: 20px;
 }
 
 .waiting {
-  animation: pulse 1.4s ease-in-out infinite;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.55; }
+  0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
 
 .result-emoji {
-  font-size: 64px;
+  font-size: 68px;
   text-align: center;
-  margin: 12px 0 4px;
+  margin: 8px 0 4px;
 }
 
 .result-text {
   text-align: center;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .vs {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 20px 0 28px;
-  font-size: 48px;
+  margin: 16px 0 24px;
+  font-size: 52px;
 }
 
 .vs div {
@@ -193,7 +193,7 @@ h1 {
   width: 100%;
   padding: 18px;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   font-size: 16.5px;
   font-weight: 600;
   cursor: pointer;
@@ -202,81 +202,60 @@ h1 {
 }
 
 .big-button {
-  background: #e63946;
+  background: linear-gradient(180deg, #ef4444, #dc2626);
   color: white;
-  margin-top: 8px;
+  margin-top: 12px;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
 }
 
-.big-button:active { transform: scale(0.97); }
+.big-button:active { transform: scale(0.98); }
 
 .secondary {
-  background: #222;
+  background: #1c1c1c;
   color: #ddd;
   margin-top: 10px;
+  border: 1px solid #2a2a2a;
 }
 
-.secondary:active { background: #2a2a2a; }
+.secondary:active { background: #252525; }
 
 input {
   width: 100%;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid #333;
-  background: #1c1c1c;
+  background: #1a1a1a;
   color: white;
   font-size: 18px;
   text-align: center;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   margin: 12px 0;
 }
 
 .pair-code {
-  font-size: 36px;
-  letter-spacing: 8px;
+  font-size: 40px;
+  letter-spacing: 10px;
   text-align: center;
-  margin: 16px 0 8px;
+  margin: 12px 0 4px;
   font-weight: 650;
-  color: #e63946;
-}
-
-.nav {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 16px;
-}
-
-.nav button {
-  flex: 1;
-  padding: 14px 8px;
-  background: #1c1c1c;
-  border: none;
-  border-radius: 12px;
-  color: #aaa;
-  font-size: 13px;
-  font-weight: 550;
-  cursor: pointer;
-}
-
-.nav button.active {
-  background: #2a1518;
   color: #e63946;
 }
 
 .toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  background: #222;
+  background: #1f1f1f;
   color: white;
-  padding: 12px 20px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 14px 22px;
+  border-radius: 24px;
+  font-size: 14.5px;
   opacity: 0;
   transition: opacity 0.2s;
   pointer-events: none;
-  z-index: 10;
+  z-index: 100;
+  border: 1px solid #333;
 }
 
 .toast.show { opacity: 1; }
