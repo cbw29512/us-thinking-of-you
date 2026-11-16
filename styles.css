@@ -16,17 +16,23 @@ body {
   justify-content: center;
   touch-action: manipulation;
   overscroll-behavior: none;
+  overflow: hidden;
 }
 
 #app {
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-  min-height: 100dvh;
+  width: 100vh;
+  height: 100vw;
+  max-width: none;
   background: linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%);
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -50vh;
+  margin-top: -50vw;
+  transform: rotate(90deg);
+  transform-origin: center center;
   overflow: hidden;
 }
 
@@ -34,7 +40,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 32px 24px 40px;
+  padding: 24px 20px 20px;
   animation: fadeIn 0.3s ease;
 }
 
@@ -60,14 +66,14 @@ h1 {
 .heart-button {
   background: radial-gradient(circle at 35% 30%, #ff7a8a, #e63946 45%, #b91c1c);
   color: white;
-  height: 150px;
+  height: 120px;
   border-radius: 28px;
-  font-size: 64px;
+  font-size: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px auto 12px;
-  width: 150px;
+  margin: 12px auto 8px;
+  width: 120px;
   border: none;
   cursor: pointer;
   box-shadow: 0 12px 40px rgba(230, 57, 70, 0.35);
@@ -93,16 +99,16 @@ h1 {
 .choice-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin: 16px 0 8px;
+  gap: 10px;
+  margin: 12px 0 6px;
 }
 
 .choice-btn {
   aspect-ratio: 1;
   border: 2px solid #2a2a2a;
   background: #1a1a1a;
-  border-radius: 20px;
-  font-size: 44px;
+  border-radius: 18px;
+  font-size: 40px;
   cursor: pointer;
   transition: all 0.12s ease;
   user-select: none;
@@ -118,16 +124,16 @@ h1 {
 .mood-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 12px 0;
+  gap: 8px;
+  margin: 10px 0;
 }
 
 .mood-btn {
-  padding: 16px 10px;
+  padding: 14px 8px;
   border: 2px solid #2a2a2a;
   background: #1a1a1a;
   border-radius: 14px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 550;
   color: #eee;
   cursor: pointer;
@@ -143,9 +149,9 @@ h1 {
 .status {
   text-align: center;
   color: #777;
-  margin-top: 12px;
-  font-size: 14px;
-  min-height: 20px;
+  margin-top: 8px;
+  font-size: 13px;
+  min-height: 18px;
 }
 
 .waiting {
@@ -158,14 +164,14 @@ h1 {
 }
 
 .result-emoji {
-  font-size: 68px;
+  font-size: 64px;
   text-align: center;
   margin: 8px 0 4px;
 }
 
 .result-text {
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   margin-bottom: 16px;
 }
@@ -175,7 +181,7 @@ h1 {
   justify-content: space-around;
   align-items: center;
   margin: 16px 0 24px;
-  font-size: 52px;
+  font-size: 48px;
 }
 
 .vs div {
@@ -191,10 +197,10 @@ h1 {
 
 .big-button, .secondary {
   width: 100%;
-  padding: 18px;
+  padding: 16px;
   border: none;
   border-radius: 16px;
-  font-size: 16.5px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.1s, background 0.15s;
@@ -204,7 +210,7 @@ h1 {
 .big-button {
   background: linear-gradient(180deg, #ef4444, #dc2626);
   color: white;
-  margin-top: 12px;
+  margin-top: 10px;
   box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
 }
 
@@ -213,7 +219,7 @@ h1 {
 .secondary {
   background: #1c1c1c;
   color: #ddd;
-  margin-top: 10px;
+  margin-top: 8px;
   border: 1px solid #2a2a2a;
 }
 
@@ -233,8 +239,8 @@ input {
 }
 
 .pair-code {
-  font-size: 40px;
-  letter-spacing: 10px;
+  font-size: 36px;
+  letter-spacing: 8px;
   text-align: center;
   margin: 12px 0 4px;
   font-weight: 650;
@@ -259,19 +265,3 @@ input {
 }
 
 .toast.show { opacity: 1; }
-
-/* Keep upright on stand */
-@media (orientation: landscape) {
-  #app {
-    transform: rotate(90deg);
-    transform-origin: center center;
-    width: 100vh;
-    height: 100vw;
-    max-width: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -50vh;
-    margin-top: -50vw;
-  }
-}
