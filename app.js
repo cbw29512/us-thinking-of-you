@@ -7,6 +7,7 @@ let state = {
   paired: false,
   myCode: null,
   partnerCode: null,
+  sharedCode: null,
   partnerName: "them",
   screen: "main",
   myChoice: null,
@@ -33,6 +34,7 @@ function load() {
   if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
     state.paired = true;
     state.partnerCode = pairCode;
+    state.sharedCode = pairCode;
     state.screen = "main";
     history.replaceState({}, "", window.location.pathname);
     startPolling();
@@ -67,9 +69,10 @@ function showToast(msg) {
 }
 
 async function sendEvent(type, payload = {}) {
-  if (!state.paired || !state.partnerCode) return;
+  const code = state.sharedCode || state.partnerCode || state.myCode;
+  if (!code) return;
   try {
-    await fetch(`/api/pair?code=${state.partnerCode}`, {
+    await fetch(`/api/pair?code=${code}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type, payload, from: myId }),
@@ -79,11 +82,12 @@ async function sendEvent(type, payload = {}) {
 
 function startPolling() {
   if (pollTimer) clearInterval(pollTimer);
-  if (!state.paired || !state.partnerCode) return;
+  const code = state.sharedCode || state.partnerCode || state.myCode;
+  if (!code) return;
 
   pollTimer = setInterval(async () => {
     try {
-      const res = await fetch(`/api/pair?code=${state.partnerCode}`);
+      const res = await fetch(`/api/pair?code=${code}`);
       const pair = await res.json();
       if (!pair.events) return;
 
@@ -216,6 +220,7 @@ function sendHeart() {
 
 function renderPair() {
   const pairUrl = `${window.location.origin}${window.location.pathname}?pair=${state.myCode}`;
+  state.sharedCode = state.myCode;
 
   app.innerHTML = `
     <div class="screen">
@@ -253,8 +258,16 @@ function renderPair() {
     if (code.length === 5 && code !== state.myCode) {
       state.paired = true;
       state.partnerCode = code;
+      state.sharedCode = code;
       showToast("Paired!");
       vibrate([30, 40, 30]);
+      state.screen = "main";
+      startPolling();
+      render();
+    } else if (code.length === 5 && code === state.myCode) {
+      state.paired = true;
+      state.sharedCode = code;
+      showToast("Ready!");
       state.screen = "main";
       startPolling();
       render();
@@ -308,5 +321,5 @@ window.go = function(screen) {
 };
 
 load();
-if (state.paired) startPolling();
+if (state.paired || state.sharedCode) startPolling();
 render();
