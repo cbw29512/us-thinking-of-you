@@ -243,15 +243,20 @@ function renderPair() {
   app.innerHTML = `
     <div class="screen">
       <h1>Pair</h1>
-      <p class="subtitle">Show this QR or share the code.</p>
+      <p class="subtitle">Show the QR or send the link.</p>
       
       <div id="qrcode" style="margin: 20px auto; width: 180px; height: 180px; background: white; padding: 8px; border-radius: 12px;"></div>
       
       <div class="pair-code">${state.myCode}</div>
       <p class="status">Your code</p>
+
+      <div style="background:#1a1a1a; border-radius:10px; padding:10px 12px; margin:16px 0; font-size:13px; word-break:break-all; color:#ccc;">
+        ${pairUrl}
+      </div>
+      <button class="big-button" id="copyBtn">Copy link</button>
       
       <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="5" inputmode="numeric">
-      <button class="big-button" id="joinBtn">Connect</button>
+      <button class="big-button" id="joinBtn">Connect with code</button>
       <button class="secondary" onclick="go('main')">Back</button>
     </div>
   `;
@@ -270,6 +275,13 @@ function renderPair() {
       });
     }
   }, 50);
+
+  document.getElementById("copyBtn").onclick = () => {
+    navigator.clipboard.writeText(pairUrl).then(() => {
+      showToast("Link copied");
+      vibrate(30);
+    }).catch(() => showToast("Copy failed"));
+  };
 
   document.getElementById("joinBtn").onclick = () => {
     const code = document.getElementById("codeInput").value.trim();
