@@ -239,25 +239,25 @@ function render() {
 
 function renderLanding() {
   app.innerHTML = `
-    <div class="screen" style="justify-content:flex-start; text-align:center; padding:40px 24px 32px;">
-      <div style="font-size:48px; margin-bottom:8px;">❤️</div>
-      <h1 style="font-size:36px; margin-bottom:12px;">Us</h1>
-      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:32px;">
-        A tiny app for two people who want to feel a little closer during the day.
+    <div class="screen" style="justify-content:flex-start; text-align:center; padding:36px 22px 28px;">
+      <div style="font-size:44px; margin-bottom:6px;">❤️</div>
+      <h1 style="font-size:34px; margin-bottom:10px;">Us</h1>
+      <p style="font-size:16.5px; color:#aaa; line-height:1.4; margin-bottom:28px;">
+        A tiny app for two people who want to feel closer during the day.
       </p>
       
-      <div style="text-align:left; background:#161616; border-radius:16px; padding:20px; margin-bottom:28px;">
-        <p style="font-size:15px; margin-bottom:14px;"><strong>Tap the heart</strong> — their phone fills with hearts and says “I love you.”</p>
-        <p style="font-size:15px; margin-bottom:14px;"><strong>Share how you feel</strong> — good, tired, miss you, need a hug.</p>
-        <p style="font-size:15px; margin-bottom:14px;"><strong>Play rock paper scissors</strong> — quick, silly, no chat needed.</p>
-        <p style="font-size:15px; margin:0;"><strong>One QR code</strong> pairs you. No accounts, no passwords.</p>
+      <div style="text-align:left; background:#161616; border-radius:16px; padding:18px 18px 8px; margin-bottom:24px;">
+        <p style="font-size:14.5px; margin-bottom:12px; line-height:1.4;"><strong>Tap the heart</strong><br>Their phone fills with hearts and vibrates “I love you.” Good for when you’re apart and just thinking of them.</p>
+        <p style="font-size:14.5px; margin-bottom:12px; line-height:1.4;"><strong>Share how you feel</strong><br>One tap: tired, miss you, need a hug. They know without you having to text.</p>
+        <p style="font-size:14.5px; margin-bottom:12px; line-height:1.4;"><strong>Quick rock paper scissors</strong><br>Decide who picks dinner or just mess around. No chat required.</p>
+        <p style="font-size:14.5px; margin-bottom:8px; line-height:1.4;"><strong>One QR code</strong><br>Show it or send the link. You’re paired. No accounts, no passwords.</p>
       </div>
       
-      <p style="font-size:14px; color:#888; margin-bottom:20px;">
+      <p style="font-size:14px; color:#888; margin-bottom:16px;">
         One person pays $1.99 a month. Both of you get it.
       </p>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:12px; color:#555; margin-top:14px;">Works on any phone. Add to home screen.</p>
+      <p style="font-size:12px; color:#555; margin-top:12px;">Works on any phone. Add to home screen.</p>
     </div>
   `;
 
