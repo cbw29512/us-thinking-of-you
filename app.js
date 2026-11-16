@@ -85,6 +85,7 @@ function load() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("paid") === "1") {
     state.paid = true;
+    state.screen = "pair";
     localStorage.setItem("us-paid", "1");
     history.replaceState({}, "", window.location.pathname);
   }
@@ -227,8 +228,8 @@ const app = document.getElementById("app");
 
 function render() {
   save();
-  if (!state.paid && state.screen !== "pair") {
-    renderPay();
+  if (!state.paid) {
+    renderLanding();
     return;
   }
   if (state.screen === "main") renderMain();
@@ -236,14 +237,23 @@ function render() {
   else if (state.screen === "result") renderResult();
 }
 
-function renderPay() {
+function renderLanding() {
   app.innerHTML = `
-    <div class="screen" style="justify-content:center; text-align:center;">
-      <h1>Us</h1>
-      <p class="subtitle">A little something for the two of you.</p>
-      <div style="font-size:64px; margin:24px 0;">❤️</div>
-      <p style="color:#aaa; margin-bottom:28px;">$1.99/month — for both of you.</p>
-      <button class="big-button" id="payBtn">Subscribe $1.99/mo</button>
+    <div class="screen" style="justify-content:center; text-align:center; padding:32px 20px;">
+      <h1 style="font-size:42px; margin-bottom:8px;">Us</h1>
+      <p class="subtitle" style="font-size:18px; margin-bottom:32px;">A little button that says<br>I'm thinking of you.</p>
+      
+      <div style="font-size:72px; margin:20px 0;">❤️</div>
+      
+      <div style="text-align:left; max-width:280px; margin:24px auto; font-size:15px; line-height:1.5; color:#ccc;">
+        <p style="margin:12px 0;">• Tap the heart — their screen explodes with hearts</p>
+        <p style="margin:12px 0;">• Share a mood</p>
+        <p style="margin:12px 0;">• Play Rock Paper Scissors</p>
+        <p style="margin:12px 0;">• One QR code pairs you both</p>
+      </div>
+      
+      <p style="color:#aaa; margin:28px 0 16px;">$1.99/month — for both of you.</p>
+      <button class="big-button" id="payBtn">Get started</button>
     </div>
   `;
 
@@ -258,7 +268,7 @@ function renderPay() {
       else showToast(data.error || "Payment setup needed");
     } catch (e) {
       showToast("Could not start payment");
-      btn.textContent = "Subscribe $1.99/mo";
+      btn.textContent = "Get started";
       btn.disabled = false;
     }
   };
@@ -364,8 +374,8 @@ function renderPair() {
 
   app.innerHTML = `
     <div class="screen">
-      <h1>Pair</h1>
-      <p class="subtitle">Show the QR or send the link. Scanning connects automatically.</p>
+      <h1>You're in</h1>
+      <p class="subtitle">Share the QR or link so they can join.</p>
       
       <div id="qrcode" style="margin: 20px auto; width: 180px; height: 180px; background: white; padding: 8px; border-radius: 12px;"></div>
       
@@ -380,7 +390,7 @@ function renderPair() {
       
       <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="5" inputmode="numeric">
       <button class="big-button" id="joinBtn">Connect with code</button>
-      <button class="secondary" onclick="go('main')">Back</button>
+      <button class="secondary" onclick="go('main')">Go to app</button>
     </div>
   `;
 
