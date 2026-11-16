@@ -1,17 +1,22 @@
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export default async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
+  const key = process.env.STRIPE_SECRET_KEY || "";
+  const keyInfo = {
+    exists: !!key,
+    length: key.length,
+    startsWith: key.slice(0, 3),
+    endsWith: key.slice(-4)
+  };
+
+  if (!key) {
+    return new Response(JSON.stringify({ error: "No key set", keyInfo }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" }
     });
   }
+
+  const stripe = new Stripe(key);
 
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
@@ -47,7 +52,7 @@ export default async (req) => {
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err.message, keyInfo }), { status: 500 });
   }
 };
 
