@@ -19,6 +19,58 @@ let state = {
 
 let pollTimer = null;
 let myId = null;
+let deferredPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallBanner();
+});
+
+function showInstallBanner() {
+  if (document.getElementById("install-banner")) return;
+  if (window.matchMedia("(display-mode: standalone)").matches) return;
+
+  const banner = document.createElement("div");
+  banner.id = "install-banner";
+  banner.style.cssText = `
+    position: fixed; bottom: 16px; left: 16px; right: 16px;
+    background: #1c1c1c; border: 1px solid #333; border-radius: 14px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    z-index: 20; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  `;
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+  banner.innerHTML = `
+    <div style="flex:1; font-size:14px; line-height:1.35;">
+      <strong>Add to Home Screen</strong><br>
+      <span style="color:#888; font-size:13px;">${isIOS ? "Tap Share then \u201cAdd to Home Screen\u201d" : "One tap to install"}</span>
+    </div>
+    <button id="install-btn" style="background:#e63946; color:white; border:none; padding:10px 14px; border-radius:10px; font-weight:600; font-size:14px;">
+      ${isIOS ? "How" : "Add"}
+    </button>
+    <button id="dismiss-install" style="background:none; border:none; color:#666; font-size:20px; padding:4px;">\u00d7</button>
+  `;
+
+  document.body.appendChild(banner);
+
+  document.getElementById("install-btn").onclick = async () => {
+    if (isIOS) {
+      alert("1. Tap the Share button (square with arrow)\n2. Scroll and tap \u201cAdd to Home Screen\u201d\n3. Tap Add");
+    } else if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        showToast("Added!");
+        banner.remove();
+      }
+      deferredPrompt = null;
+    }
+  };
+
+  document.getElementById("dismiss-install").onclick = () => banner.remove();
+}
 
 function load() {
   try {
@@ -243,7 +295,7 @@ function renderPair() {
   app.innerHTML = `
     <div class="screen">
       <h1>Pair</h1>
-      <p class="subtitle">Show the QR or send the link.</p>
+      <p class="subtitle">Show the QR or send the link. Scanning connects automatically.</p>
       
       <div id="qrcode" style="margin: 20px auto; width: 180px; height: 180px; background: white; padding: 8px; border-radius: 12px;"></div>
       
@@ -366,6 +418,11 @@ window.go = function(screen) {
   state.screen = screen;
   render();
 };
+
+// Show banner on iOS even without beforeinstallprompt
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+  setTimeout(showInstallBanner, 2000);
+}
 
 load();
 if (state.paired || state.sharedCode) startPolling();
