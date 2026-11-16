@@ -172,6 +172,7 @@ function handleIncoming(event) {
     vibrate([40, 30, 40]);
     const status = document.getElementById("heartStatus");
     if (status) status.textContent = "Heart received ❤️";
+    burstHearts();
   } else if (event.type === "mood") {
     showToast(`They're feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
@@ -182,6 +183,35 @@ function handleIncoming(event) {
       state.screen = "result";
       render();
     }
+  }
+}
+
+function burstHearts() {
+  for (let i = 0; i < 8; i++) {
+    const h = document.createElement("div");
+    h.textContent = "❤️";
+    h.style.cssText = `
+      position: fixed;
+      left: ${30 + Math.random() * 40}%;
+      top: ${40 + Math.random() * 20}%;
+      font-size: ${28 + Math.random() * 24}px;
+      pointer-events: none;
+      z-index: 30;
+      animation: floatUp 1.4s ease-out forwards;
+    `;
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1400);
+  }
+  if (!document.getElementById("heart-anim")) {
+    const style = document.createElement("style");
+    style.id = "heart-anim";
+    style.textContent = `
+      @keyframes floatUp {
+        0% { transform: translateY(0) scale(0.6); opacity: 1; }
+        100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   }
 }
 
@@ -419,7 +449,6 @@ window.go = function(screen) {
   render();
 };
 
-// Show banner on iOS even without beforeinstallprompt
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
   setTimeout(showInstallBanner, 2000);
 }
