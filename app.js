@@ -158,9 +158,9 @@ function startPolling() {
       if (others.length > 0 && !state.paired) {
         state.paired = true;
         save();
-        const sub = document.querySelector(".subtitle");
-        if (sub) sub.textContent = "Connected — tap the heart";
         showToast("Connected");
+        state.screen = "main";
+        render();
       }
 
       for (const event of pair.events) {
@@ -284,38 +284,39 @@ function renderMain() {
   const moods = [
     { id: "good", label: "Good" },
     { id: "tired", label: "Tired" },
-    { id: "stressed", label: "Stressed" },
     { id: "happy", label: "Happy" },
-    { id: "hug", label: "Need a hug" },
+    { id: "hug", label: "Hug" },
     { id: "miss", label: "Miss you" }
   ];
 
   app.innerHTML = `
-    <div class="screen">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <h1>Us</h1>
-        <button class="secondary" style="width:auto; padding:8px 14px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
+    <div class="screen" style="padding:16px 18px 12px; justify-content:space-between;">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h1 style="font-size:22px; margin:0;">Us</h1>
+          <button class="secondary" style="width:auto; padding:6px 12px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
+        </div>
+        <p class="subtitle" style="margin:4px 0 12px; font-size:13px;">${state.paired ? "Connected" : "Waiting for them..."}</p>
+
+        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:8px auto;">❤️</button>
+        <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
       </div>
-      <p class="subtitle">${state.paired ? "Connected — tap the heart" : "Waiting for them..."}</p>
 
-      <button class="heart-button" id="heartBtn" aria-label="Thinking of you">❤️</button>
-      <div class="status" id="heartStatus">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
-
-      <div style="margin-top:28px;">
-        <div style="font-size:14px; color:#888; margin-bottom:10px; text-align:center;">How are you?</div>
-        <div class="mood-grid">
-          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}">${m.label}</button>`).join("")}
+      <div>
+        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">How are you?</div>
+        <div class="mood-grid" style="gap:6px; margin:0;">
+          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:10px 6px; font-size:13px;">${m.label}</button>`).join("")}
         </div>
       </div>
 
-      <div style="margin-top:24px;">
-        <div style="font-size:14px; color:#888; margin-bottom:10px; text-align:center;">Rock Paper Scissors</div>
-        <div class="choice-grid">
-          <button class="choice-btn" data-choice="rock">✊</button>
-          <button class="choice-btn" data-choice="paper">✋</button>
-          <button class="choice-btn" data-choice="scissors">✌️</button>
+      <div>
+        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">Rock Paper Scissors</div>
+        <div class="choice-grid" style="gap:8px; margin:0;">
+          <button class="choice-btn" data-choice="rock" style="font-size:32px;">✊</button>
+          <button class="choice-btn" data-choice="paper" style="font-size:32px;">✋</button>
+          <button class="choice-btn" data-choice="scissors" style="font-size:32px;">✌️</button>
         </div>
-        <div class="status" id="rpsStatus">Pick one</div>
+        <div class="status" id="rpsStatus" style="margin-top:4px; font-size:13px;">Pick one</div>
       </div>
     </div>
   `;
