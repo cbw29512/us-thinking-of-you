@@ -1,4 +1,4 @@
-// Us — Thinking of You
+// OurHearts
 // Single-screen simple version
 
 const STORAGE_KEY = "us-app-v2";
@@ -243,7 +243,7 @@ function renderLanding() {
   app.innerHTML = `
     <div class="screen" style="justify-content:flex-start; text-align:center; padding:28px 18px 24px;">
       <div style="font-size:36px; margin-bottom:4px;">❤️</div>
-      <h1 style="font-size:32px; margin-bottom:8px;">Us</h1>
+      <h1 style="font-size:32px; margin-bottom:8px;">OurHearts</h1>
       <p style="font-size:15.5px; color:#aaa; line-height:1.4; margin-bottom:18px;">
         A tiny app for two people who want to feel closer during the day.
       </p>
@@ -295,7 +295,7 @@ function renderMain() {
     <div class="screen" style="padding:16px 18px 12px; justify-content:space-between;">
       <div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h1 style="font-size:22px; margin:0;">Us</h1>
+          <h1 style="font-size:22px; margin:0;">OurHearts</h1>
           <button class="secondary" style="width:auto; padding:6px 12px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
         </div>
         <p class="subtitle" style="margin:4px 0 12px; font-size:13px;">${state.paired ? "Connected" : "Waiting for them..."}</p>
@@ -420,7 +420,7 @@ function renderPair() {
 
   document.getElementById("shareBtn").onclick = async () => {
     const shareData = {
-      title: "Us — Thinking of You",
+      title: "OurHearts",
       text: "Tap to connect with me",
       url: pairUrl
     };
