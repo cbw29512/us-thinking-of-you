@@ -35,23 +35,23 @@ function showInstallBanner() {
   const banner = document.createElement("div");
   banner.id = "install-banner";
   banner.style.cssText = `
-    position: fixed; bottom: 16px; left: 16px; right: 16px;
-    background: #1c1c1c; border: 1px solid #333; border-radius: 14px;
-    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-    z-index: 20; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    position: fixed; bottom: 12px; left: 12px; right: 12px;
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px;
+    padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+    z-index: 20; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
   `;
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   banner.innerHTML = `
-    <div style="flex:1; font-size:14px; line-height:1.35;">
+    <div style="flex:1; font-size:13.5px; line-height:1.3;">
       <strong>Add to Home Screen</strong><br>
-      <span style="color:#888; font-size:13px;">${isIOS ? "Tap Share then \u201cAdd to Home Screen\u201d" : "One tap to install"}</span>
+      <span style="color:#888; font-size:12.5px;">${isIOS ? "Tap Share then \u201cAdd to Home Screen\u201d" : "One tap to install"}</span>
     </div>
-    <button id="install-btn" style="background:#e63946; color:white; border:none; padding:10px 14px; border-radius:10px; font-weight:600; font-size:14px;">
+    <button id="install-btn" style="background:#e63946; color:white; border:none; padding:9px 12px; border-radius:10px; font-weight:600; font-size:13px;">
       ${isIOS ? "How" : "Add"}
     </button>
-    <button id="dismiss-install" style="background:none; border:none; color:#666; font-size:20px; padding:4px;">\u00d7</button>
+    <button id="dismiss-install" style="background:none; border:none; color:#666; font-size:18px; padding:2px;">\u00d7</button>
   `;
 
   document.body.appendChild(banner);
@@ -241,27 +241,26 @@ function render() {
 
 function renderLanding() {
   app.innerHTML = `
-    <div class="screen" style="justify-content:flex-start; text-align:center; padding:28px 18px 24px;">
-      <div style="font-size:36px; margin-bottom:4px;">❤️</div>
-      <h1 style="font-size:32px; margin-bottom:8px;">OurHearts</h1>
-      <p style="font-size:15.5px; color:#aaa; line-height:1.4; margin-bottom:18px;">
-        A tiny app for two people who want to feel closer during the day.
+    <div class="screen" style="justify-content:center; text-align:center; padding:20px 20px 16px;">
+      <div style="font-size:28px; margin-bottom:2px;">❤️</div>
+      <h1 style="font-size:28px; margin-bottom:6px; letter-spacing:-0.5px;">OurHearts</h1>
+      <p style="font-size:14.5px; color:#999; line-height:1.35; margin-bottom:14px; max-width:280px; margin-left:auto; margin-right:auto;">
+        Feel closer during the day. One tap, no chat required.
       </p>
       
-      <img src="phones.jpg" alt="Two phones showing the app" style="width:100%; max-width:340px; border-radius:12px; margin-bottom:20px;">
+      <img src="phones.jpg" alt="Two phones showing the app" style="width:100%; max-width:300px; border-radius:14px; margin-bottom:16px;">
       
-      <div style="text-align:left; background:#161616; border-radius:16px; padding:16px 16px 6px; margin-bottom:20px;">
-        <p style="font-size:14px; margin-bottom:10px; line-height:1.4;"><strong>Tap the heart</strong><br>Their phone fills with hearts and vibrates “I love you.”</p>
-        <p style="font-size:14px; margin-bottom:10px; line-height:1.4;"><strong>Share how you feel</strong><br>One tap: tired, miss you, need a hug.</p>
-        <p style="font-size:14px; margin-bottom:10px; line-height:1.4;"><strong>Quick rock paper scissors</strong><br>Decide who picks dinner. No chat required.</p>
-        <p style="font-size:14px; margin-bottom:6px; line-height:1.4;"><strong>One QR code</strong><br>Show it or send the link. You’re paired.</p>
+      <div style="text-align:left; background:#141414; border-radius:14px; padding:12px 14px; margin-bottom:14px;">
+        <p style="font-size:13px; margin-bottom:8px; line-height:1.35;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
+        <p style="font-size:13px; margin-bottom:8px; line-height:1.35;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
+        <p style="font-size:13px; margin-bottom:0; line-height:1.35;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
       </div>
       
-      <p style="font-size:13.5px; color:#888; margin-bottom:14px;">
-        One person pays $1.99 a month. Both of you get it.
+      <p style="font-size:13px; color:#888; margin-bottom:10px;">
+        One person pays. Both of you get it.
       </p>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:12px; color:#555; margin-top:10px;">No ads. Private. Works on any phone.</p>
+      <p style="font-size:11.5px; color:#555; margin-top:8px;">No ads. Private. Works on any phone.</p>
     </div>
   `;
 
@@ -292,33 +291,33 @@ function renderMain() {
   ];
 
   app.innerHTML = `
-    <div class="screen" style="padding:16px 18px 12px; justify-content:space-between;">
+    <div class="screen" style="padding:14px 16px 10px; justify-content:space-between;">
       <div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h1 style="font-size:22px; margin:0;">OurHearts</h1>
-          <button class="secondary" style="width:auto; padding:6px 12px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
+          <h1 style="font-size:20px; margin:0;">OurHearts</h1>
+          <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
         </div>
-        <p class="subtitle" style="margin:4px 0 12px; font-size:13px;">${state.paired ? "Connected" : "Waiting for them..."}</p>
+        <p class="subtitle" style="margin:2px 0 10px; font-size:12.5px;">${state.paired ? "Connected" : "Waiting for them..."}</p>
 
-        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:8px auto;">❤️</button>
-        <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
+        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:96px; width:96px; font-size:40px; margin:6px auto;">❤️</button>
+        <div class="status" id="heartStatus" style="margin-top:2px; font-size:12.5px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
       </div>
 
       <div>
-        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">How are you?</div>
-        <div class="mood-grid" style="gap:6px; margin:0;">
-          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:10px 6px; font-size:13px;">${m.label}</button>`).join("")}
+        <div style="font-size:11.5px; color:#888; margin-bottom:5px; text-align:center;">How are you?</div>
+        <div class="mood-grid" style="gap:5px; margin:0;">
+          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:9px 4px; font-size:12.5px;">${m.label}</button>`).join("")}
         </div>
       </div>
 
       <div>
-        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">Rock Paper Scissors</div>
-        <div class="choice-grid" style="gap:8px; margin:0;">
-          <button class="choice-btn" data-choice="rock" style="font-size:32px;">✊</button>
-          <button class="choice-btn" data-choice="paper" style="font-size:32px;">✋</button>
-          <button class="choice-btn" data-choice="scissors" style="font-size:32px;">✌️</button>
+        <div style="font-size:11.5px; color:#888; margin-bottom:5px; text-align:center;">Rock Paper Scissors</div>
+        <div class="choice-grid" style="gap:6px; margin:0;">
+          <button class="choice-btn" data-choice="rock" style="font-size:30px;">✊</button>
+          <button class="choice-btn" data-choice="paper" style="font-size:30px;">✋</button>
+          <button class="choice-btn" data-choice="scissors" style="font-size:30px;">✌️</button>
         </div>
-        <div class="status" id="rpsStatus" style="margin-top:4px; font-size:13px;">Pick one</div>
+        <div class="status" id="rpsStatus" style="margin-top:2px; font-size:12.5px;">Pick one</div>
       </div>
     </div>
   `;
