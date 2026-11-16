@@ -239,21 +239,25 @@ function render() {
 
 function renderLanding() {
   app.innerHTML = `
-    <div class="screen" style="justify-content:center; text-align:center; padding:32px 20px;">
-      <h1 style="font-size:42px; margin-bottom:8px;">Us</h1>
-      <p class="subtitle" style="font-size:18px; margin-bottom:32px;">A little button that says<br>I'm thinking of you.</p>
+    <div class="screen" style="justify-content:flex-start; text-align:center; padding:40px 24px 32px;">
+      <div style="font-size:48px; margin-bottom:8px;">❤️</div>
+      <h1 style="font-size:36px; margin-bottom:12px;">Us</h1>
+      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:32px;">
+        A tiny app for two people who want to feel a little closer during the day.
+      </p>
       
-      <div style="font-size:72px; margin:20px 0;">❤️</div>
-      
-      <div style="text-align:left; max-width:280px; margin:24px auto; font-size:15px; line-height:1.5; color:#ccc;">
-        <p style="margin:12px 0;">• Tap the heart — their screen explodes with hearts</p>
-        <p style="margin:12px 0;">• Share a mood</p>
-        <p style="margin:12px 0;">• Play Rock Paper Scissors</p>
-        <p style="margin:12px 0;">• One QR code pairs you both</p>
+      <div style="text-align:left; background:#161616; border-radius:16px; padding:20px; margin-bottom:28px;">
+        <p style="font-size:15px; margin-bottom:14px;"><strong>Tap the heart</strong> — their phone fills with hearts and says “I love you.”</p>
+        <p style="font-size:15px; margin-bottom:14px;"><strong>Share how you feel</strong> — good, tired, miss you, need a hug.</p>
+        <p style="font-size:15px; margin-bottom:14px;"><strong>Play rock paper scissors</strong> — quick, silly, no chat needed.</p>
+        <p style="font-size:15px; margin:0;"><strong>One QR code</strong> pairs you. No accounts, no passwords.</p>
       </div>
       
-      <p style="color:#aaa; margin:28px 0 16px;">$1.99/month — for both of you.</p>
-      <button class="big-button" id="payBtn">Get started</button>
+      <p style="font-size:14px; color:#888; margin-bottom:20px;">
+        $1.99 a month for both of you. Cancel anytime.
+      </p>
+      <button class="big-button" id="payBtn">Start for $1.99/mo</button>
+      <p style="font-size:12px; color:#555; margin-top:14px;">Works on any phone. Add to home screen.</p>
     </div>
   `;
 
@@ -268,7 +272,7 @@ function renderLanding() {
       else showToast(data.error || "Payment setup needed");
     } catch (e) {
       showToast("Could not start payment");
-      btn.textContent = "Get started";
+      btn.textContent = "Start for $1.99/mo";
       btn.disabled = false;
     }
   };
