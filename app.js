@@ -92,7 +92,7 @@ function load() {
   if (localStorage.getItem("us-paid") === "1") state.paid = true;
 
   const pairCode = params.get("pair");
-  if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
+  if (pairCode && pairCode.length === 5) {
     state.paid = true;
     localStorage.setItem("us-paid", "1");
     state.paired = true;
