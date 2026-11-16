@@ -242,8 +242,8 @@ function renderPay() {
       <h1>Us</h1>
       <p class="subtitle">A little something for the two of you.</p>
       <div style="font-size:64px; margin:24px 0;">❤️</div>
-      <p style="color:#aaa; margin-bottom:28px;">$0.99/month — get your pairing QR and share it.</p>
-      <button class="big-button" id="payBtn">Subscribe $0.99/mo</button>
+      <p style="color:#aaa; margin-bottom:28px;">$1.99/month — for both of you.</p>
+      <button class="big-button" id="payBtn">Subscribe $1.99/mo</button>
     </div>
   `;
 
@@ -258,7 +258,7 @@ function renderPay() {
       else showToast(data.error || "Payment setup needed");
     } catch (e) {
       showToast("Could not start payment");
-      btn.textContent = "Subscribe $0.99/mo";
+      btn.textContent = "Subscribe $1.99/mo";
       btn.disabled = false;
     }
   };
