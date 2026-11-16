@@ -1,0 +1,7 @@
+{
+  "name": "us-thinking-of-you",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
+}
