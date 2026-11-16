@@ -19,21 +19,26 @@ export default async (req) => {
 
   try {
     const origin = new URL(req.url).origin;
+
+    const prices = await stripe.prices.list({ limit: 10, active: true });
+    let priceId;
+    const existing = prices.data.find(p => p.unit_amount === 99 && p.recurring?.interval === "month");
+    if (existing) {
+      priceId = existing.id;
+    } else {
+      const product = await stripe.products.create({ name: "Us — Monthly" });
+      const price = await stripe.prices.create({
+        unit_amount: 99,
+        currency: "usd",
+        recurring: { interval: "month" },
+        product: product.id,
+      });
+      priceId = price.id;
+    }
+
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Us — Pair",
-              description: "One pairing for you and someone special",
-            },
-            unit_amount: 99,
-          },
-          quantity: 1,
-        },
-      ],
+      mode: "subscription",
+      line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${origin}/?paid=1`,
       cancel_url: `${origin}/`,
     });
