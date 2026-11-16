@@ -85,6 +85,8 @@ function startPolling() {
   const code = state.sharedCode || state.partnerCode || state.myCode;
   if (!code) return;
 
+  sendEvent("presence");
+
   pollTimer = setInterval(async () => {
     try {
       const res = await fetch(`/api/pair?code=${code}`);
@@ -100,24 +102,30 @@ function startPolling() {
         showToast("Connected");
       }
 
-      const latest = pair.events[pair.events.length - 1];
-      if (latest && latest.from !== myId && latest.id !== state.lastSeenEvent) {
-        state.lastSeenEvent = latest.id;
-        handleIncoming(latest);
+      for (const event of pair.events) {
+        if (event.from === myId) continue;
+        if (event.id <= (state.lastSeenEvent || 0)) continue;
+        state.lastSeenEvent = event.id;
+        handleIncoming(event);
       }
+      save();
     } catch (e) {}
   }, 2500);
 }
 
 function handleIncoming(event) {
+  if (event.type === "presence") return;
   if (event.type === "heart") {
     showToast("They sent a heart ❤️");
     vibrate([40, 30, 40]);
+    const status = document.getElementById("heartStatus");
+    if (status) status.textContent = "Heart received ❤️";
   } else if (event.type === "mood") {
-    showToast(`They're feeling ${event.payload.mood}`);
+    showToast(`They're feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
   } else if (event.type === "rps") {
-    state.partnerChoice = event.payload.choice;
+    state.partnerChoice = event.payload?.choice;
+    showToast("They played RPS");
     if (state.myChoice) {
       state.screen = "result";
       render();
