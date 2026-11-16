@@ -4,6 +4,7 @@
 const STORAGE_KEY = "us-app-v2";
 
 let state = {
+  paid: false,
   paired: false,
   myCode: null,
   partnerCode: null,
@@ -82,6 +83,13 @@ function load() {
   localStorage.setItem("us-my-id", myId);
 
   const params = new URLSearchParams(window.location.search);
+  if (params.get("paid") === "1") {
+    state.paid = true;
+    localStorage.setItem("us-paid", "1");
+    history.replaceState({}, "", window.location.pathname);
+  }
+  if (localStorage.getItem("us-paid") === "1") state.paid = true;
+
   const pairCode = params.get("pair");
   if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
     state.paired = true;
@@ -219,9 +227,41 @@ const app = document.getElementById("app");
 
 function render() {
   save();
+  if (!state.paid && state.screen !== "pair") {
+    renderPay();
+    return;
+  }
   if (state.screen === "main") renderMain();
   else if (state.screen === "pair") renderPair();
   else if (state.screen === "result") renderResult();
+}
+
+function renderPay() {
+  app.innerHTML = `
+    <div class="screen" style="justify-content:center; text-align:center;">
+      <h1>Us</h1>
+      <p class="subtitle">A little something for the two of you.</p>
+      <div style="font-size:64px; margin:24px 0;">❤️</div>
+      <p style="color:#aaa; margin-bottom:28px;">$0.99 — get your pairing QR and share it.</p>
+      <button class="big-button" id="payBtn">Pay $0.99</button>
+    </div>
+  `;
+
+  document.getElementById("payBtn").onclick = async () => {
+    const btn = document.getElementById("payBtn");
+    btn.textContent = "Redirecting...";
+    btn.disabled = true;
+    try {
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json();
+      if (data.url) window.location = data.url;
+      else showToast(data.error || "Payment setup needed");
+    } catch (e) {
+      showToast("Could not start payment");
+      btn.textContent = "Pay $0.99";
+      btn.disabled = false;
+    }
+  };
 }
 
 function renderMain() {
