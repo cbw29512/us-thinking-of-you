@@ -12,8 +12,12 @@ let state = {
   myChoice: null,
   partnerChoice: null,
   lastHeart: null,
-  lastMood: null
+  lastMood: null,
+  lastSeenEvent: null
 };
+
+let pollTimer = null;
+let myId = null;
 
 function load() {
   try {
@@ -21,8 +25,9 @@ function load() {
     if (saved) Object.assign(state, JSON.parse(saved));
   } catch (e) {}
   if (!state.myCode) state.myCode = generateCode();
+  if (!myId) myId = localStorage.getItem("us-my-id") || crypto.randomUUID();
+  localStorage.setItem("us-my-id", myId);
 
-  // Auto-pair if someone scanned a QR
   const params = new URLSearchParams(window.location.search);
   const pairCode = params.get("pair");
   if (pairCode && pairCode.length === 5 && pairCode !== state.myCode && !state.paired) {
@@ -30,6 +35,7 @@ function load() {
     state.partnerCode = pairCode;
     state.screen = "main";
     history.replaceState({}, "", window.location.pathname);
+    startPolling();
   }
 }
 
@@ -58,6 +64,52 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+async function sendEvent(type, payload = {}) {
+  if (!state.paired || !state.partnerCode) return;
+  try {
+    await fetch(`/api/pair?code=${state.partnerCode}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type, payload, from: myId }),
+    });
+  } catch (e) {}
+}
+
+function startPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  if (!state.paired || !state.partnerCode) return;
+
+  pollTimer = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/pair?code=${state.partnerCode}`);
+      const pair = await res.json();
+      if (!pair.events) return;
+
+      const latest = pair.events[pair.events.length - 1];
+      if (latest && latest.from !== myId && latest.id !== state.lastSeenEvent) {
+        state.lastSeenEvent = latest.id;
+        handleIncoming(latest);
+      }
+    } catch (e) {}
+  }, 2500);
+}
+
+function handleIncoming(event) {
+  if (event.type === "heart") {
+    showToast("They sent a heart ❤️");
+    vibrate([40, 30, 40]);
+  } else if (event.type === "mood") {
+    showToast(`They're feeling ${event.payload.mood}`);
+    vibrate(30);
+  } else if (event.type === "rps") {
+    state.partnerChoice = event.payload.choice;
+    if (state.myChoice) {
+      state.screen = "result";
+      render();
+    }
+  }
 }
 
 const app = document.getElementById("app");
@@ -118,6 +170,7 @@ function renderMain() {
       save();
       vibrate(30);
       showToast("Mood sent");
+      sendEvent("mood", { mood });
       document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
       btn.classList.add("selected");
     };
@@ -133,13 +186,12 @@ function renderMain() {
       const status = document.getElementById("rpsStatus");
       status.textContent = "Sent. Waiting...";
       status.classList.add("waiting");
+      sendEvent("rps", { choice });
 
-      setTimeout(() => {
-        const options = ["rock", "paper", "scissors"];
-        state.partnerChoice = options[Math.floor(Math.random() * 3)];
+      if (state.partnerChoice) {
         state.screen = "result";
         render();
-      }, 1200);
+      }
     };
   });
 }
@@ -154,6 +206,7 @@ function sendHeart() {
   save();
   status.textContent = "Sent ❤️";
   showToast("Thinking of you sent");
+  sendEvent("heart");
   setTimeout(() => {
     if (document.getElementById("heartStatus")) {
       document.getElementById("heartStatus").textContent = "Heart sent";
@@ -180,7 +233,6 @@ function renderPair() {
     </div>
   `;
 
-  // Generate QR
   setTimeout(() => {
     const qrEl = document.getElementById("qrcode");
     if (qrEl && typeof QRCode !== "undefined") {
@@ -204,6 +256,7 @@ function renderPair() {
       showToast("Paired!");
       vibrate([30, 40, 30]);
       state.screen = "main";
+      startPolling();
       render();
     } else {
       showToast("Enter a valid 5-digit code");
@@ -255,4 +308,5 @@ window.go = function(screen) {
 };
 
 load();
+if (state.paired) startPolling();
 render();
