@@ -1,1 +1,68 @@
-aW1wb3J0IHsgZ2V0U3RvcmUgfSBmcm9tICJAbmV0bGlmeS9ibG9icyI7Cgpjb25zdCBzdG9yZSA9IGdldFN0b3JlKCJ1cy1wYWlycyIpOwoKZXhwb3J0IGRlZmF1bHQgYXN5bmMgKHJlcSkgPT4gewogIGlmIChyZXEubWV0aG9kID09PSAiT1BUSU9OUyIpIHsKICAgIHJldHVybiBuZXcgUmVzcG9uc2UobnVsbCwgewogICAgICBoZWFkZXJzOiB7CiAgICAgICAgIkFjY2Vzcy1Db250cm9sLUFsbG93LU9yaWdpbiI6ICIqIiwKICAgICAgICAiQWNjZXNzLUNvbnRyb2wtQWxsb3ctTWV0aG9kcyI6ICJHRVQsIFBPU1QsIE9QVElPTlMiLAogICAgICAgICJBY2Nlc3MtQ29udHJvbC1BbGxvdy1IZWFkZXJzIjogIkNvbnRlbnQtVHlwZSIsCiAgICAgIH0sCiAgICB9KTsKICB9CgogIGNvbnN0IGhlYWRlcnMgPSB7CiAgICAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24iLAogICAgIkFjY2Vzcy1Db250cm9sLUFsbG93LU9yaWdpbiI6ICIqIiwKICB9OwoKICB0cnkgewogICAgY29uc3QgdXJsID0gbmV3IFVSTChyZXEudXJsKTsKICAgIGNvbnN0IGNvZGUgPSB1cmwuc2VhcmNoUGFyYW1zLmdldCgiY29kZSIpOwoKICAgIGlmIChyZXEubWV0aG9kID09PSAiUE9TVCIpIHsKICAgICAgY29uc3QgYm9keSA9IGF3YWl0IHJlcS5qc29uKCk7CiAgICAgIGNvbnN0IHsgdHlwZSwgcGF5bG9hZCwgZnJvbSB9ID0gYm9keTsKCiAgICAgIGlmICghY29kZSkgcmV0dXJuIG5ldyBSZXNwb25zZShKU09OLnN0cmluZ2lmeSh7IGVycm9yOiAibWlzc2luZyBjb2RlIiB9KSwgeyBzdGF0dXM6IDQwMCwgaGVhZGVycyB9KTsKCiAgICAgIGNvbnN0IGtleSA9IGBwYWlyOiR7Y29kZX1gOwogICAgICBsZXQgcGFpciA9IGF3YWl0IHN0b3JlLmdldChrZXksIHsgdHlwZTogImpzb24iIH0pIHx8IHsgZXZlbnRzOiBbXSwgdXNlcnM6IFtdIH07CgogICAgICAvLyBSZWdpc3RlciB1c2VyIGlmIG5ldwogICAgICBpZiAoZnJvbSAmJiAhcGFpci51c2Vycy5pbmNsdWRlcyhmcm9tKSkgewogICAgICAgIHBhaXIudXNlcnMucHVzaChmcm9tKTsKICAgICAgfQoKICAgICAgLy8gQWRkIGV2ZW50CiAgICAgIGlmICh0eXBlKSB7CiAgICAgICAgcGFpci5ldmVudHMgPSBwYWlyLmV2ZW50cyB8fCBbXTsKICAgICAgICBwYWlyLmV2ZW50cy5wdXNoKHsKICAgICAgICAgIGlkOiBEYXRlLm5vdygpLAogICAgICAgICAgdHlwZSwKICAgICAgICAgIHBheWxvYWQsCiAgICAgICAgICBmcm9tLAogICAgICAgICAgYXQ6IERhdGUubm93KCksCiAgICAgICAgfSk7CiAgICAgICAgLy8gS2VlcCBvbmx5IGxhc3QgMjAgZXZlbnRzCiAgICAgICAgaWYgKHBhaXIuZXZlbnRzLmxlbmd0aCA+IDIwKSBwYWlyLmV2ZW50cyA9IHBhaXIuZXZlbnRzLnNsaWNlKC0yMCk7CiAgICAgIH0KCiAgICAgIGF3YWl0IHN0b3JlLnNldEpTT04oa2V5LCBwYWlyKTsKICAgICAgcmV0dXJuIG5ldyBSZXNwb25zZShKU09OLnN0cmluZ2lmeSh7IG9rOiB0cnVlLCBwYWlyIH0pLCB7IGhlYWRlcnMgfSk7CiAgICB9CgogICAgaWYgKHJlcS5tZXRob2QgPT09ICJHRVQiICYmIGNvZGUpIHsKICAgICAgY29uc3Qga2V5ID0gYHBhaXI6JHtjb2RlfWA7CiAgICAgIGNvbnN0IHBhaXIgPSBhd2FpdCBzdG9yZS5nZXQoa2V5LCB7IHR5cGU6ICJqc29uIiB9KSB8fCB7IGV2ZW50czogW10sIHVzZXJzOiBbXSB9OwogICAgICByZXR1cm4gbmV3IFJlc3BvbnNlKEpTT04uc3RyaW5naWZ5KHBhaXIpLCB7IGhlYWRlcnMgfSk7CiAgICB9CgogICAgcmV0dXJuIG5ldyBSZXNwb25zZShKU09OLnN0cmluZ2lmeSh7IGVycm9yOiAiYmFkIHJlcXVlc3QiIH0pLCB7IHN0YXR1czogNDAwLCBoZWFkZXJzIH0pOwogIH0gY2F0Y2ggKGVycikgewogICAgcmV0dXJuIG5ldyBSZXNwb25zZShKU09OLnN0cmluZ2lmeSh7IGVycm9yOiBlcnIubWVzc2FnZSB9KSwgeyBzdGF0dXM6IDUwMCwgaGVhZGVycyB9KTsKICB9Cn07CgpleHBvcnQgY29uc3QgY29uZmlnID0gewogIHBhdGg6ICIvYXBpL3BhaXIiLAp9Ow==
+import { getStore } from "@netlify/blobs";
+
+const store = getStore("us-pairs");
+
+export default async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  try {
+    const url = new URL(req.url);
+    const code = url.searchParams.get("code");
+
+    if (req.method === "POST") {
+      const body = await req.json();
+      const { type, payload, from } = body;
+
+      if (!code) return new Response(JSON.stringify({ error: "missing code" }), { status: 400, headers });
+
+      const key = `pair:${code}`;
+      let pair = await store.get(key, { type: "json" }) || { events: [], users: [] };
+
+      if (from && !pair.users.includes(from)) {
+        pair.users.push(from);
+      }
+
+      if (type) {
+        pair.events = pair.events || [];
+        pair.events.push({
+          id: Date.now(),
+          type,
+          payload,
+          from,
+          at: Date.now(),
+        });
+        if (pair.events.length > 20) pair.events = pair.events.slice(-20);
+      }
+
+      await store.setJSON(key, pair);
+      return new Response(JSON.stringify({ ok: true, pair }), { headers });
+    }
+
+    if (req.method === "GET" && code) {
+      const key = `pair:${code}`;
+      const pair = await store.get(key, { type: "json" }) || { events: [], users: [] };
+      return new Response(JSON.stringify(pair), { headers });
+    }
+
+    return new Response(JSON.stringify({ error: "bad request" }), { status: 400, headers });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers });
+  }
+};
+
+export const config = {
+  path: "/api/pair",
+};
