@@ -91,6 +91,15 @@ function startPolling() {
       const pair = await res.json();
       if (!pair.events) return;
 
+      const others = (pair.users || []).filter(u => u !== myId);
+      if (others.length > 0 && !state.paired) {
+        state.paired = true;
+        save();
+        const sub = document.querySelector(".subtitle");
+        if (sub) sub.textContent = "Connected — tap the heart";
+        showToast("Connected");
+      }
+
       const latest = pair.events[pair.events.length - 1];
       if (latest && latest.from !== myId && latest.id !== state.lastSeenEvent) {
         state.lastSeenEvent = latest.id;
@@ -141,7 +150,7 @@ function renderMain() {
         <h1>Us</h1>
         <button class="secondary" style="width:auto; padding:8px 14px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
       </div>
-      <p class="subtitle">${state.paired ? "Connected" : "A little something for the two of you."}</p>
+      <p class="subtitle">${state.paired ? "Connected — tap the heart" : "Waiting for them..."}</p>
 
       <button class="heart-button" id="heartBtn" aria-label="Thinking of you">❤️</button>
       <div class="status" id="heartStatus">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
@@ -221,6 +230,7 @@ function sendHeart() {
 function renderPair() {
   const pairUrl = `${window.location.origin}${window.location.pathname}?pair=${state.myCode}`;
   state.sharedCode = state.myCode;
+  startPolling();
 
   app.innerHTML = `
     <div class="screen">
