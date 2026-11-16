@@ -22,13 +22,13 @@ export default async (req) => {
 
     const prices = await stripe.prices.list({ limit: 10, active: true });
     let priceId;
-    const existing = prices.data.find(p => p.unit_amount === 99 && p.recurring?.interval === "month");
+    const existing = prices.data.find(p => p.unit_amount === 199 && p.recurring?.interval === "month");
     if (existing) {
       priceId = existing.id;
     } else {
       const product = await stripe.products.create({ name: "Us — Monthly" });
       const price = await stripe.prices.create({
-        unit_amount: 99,
+        unit_amount: 199,
         currency: "usd",
         recurring: { interval: "month" },
         product: product.id,
