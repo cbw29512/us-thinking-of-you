@@ -1,5 +1,6 @@
 // OurHearts
 // Single-screen simple version
+// dice button removed
 
 const STORAGE_KEY = "us-app-v2";
 
