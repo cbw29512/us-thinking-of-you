@@ -11,6 +11,7 @@ let state = {
   partnerCode: null,
   sharedCode: null,
   partnerName: "them",
+  myName: "",
   screen: "main",
   myChoice: null,
   partnerChoice: null,
@@ -196,7 +197,7 @@ function handleIncoming(event) {
     if (status) status.textContent = "I love you \u2764\ufe0f";
     explodeHearts();
   } else if (event.type === "mood") {
-    showToast(`They're feeling ${event.payload?.mood || "something"}`);
+    showToast(`${event.payload?.name || "They"} is feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
   } else if (event.type === "rps") {
     state.partnerChoice = event.payload?.choice;
@@ -483,7 +484,7 @@ function renderMain() {
       save();
       vibrate(30);
       showToast("Mood sent");
-      sendEvent("mood", { mood });
+      sendEvent("mood", { mood, name: state.myName || "They" });
       document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
       btn.classList.add("selected");
     };
@@ -550,6 +551,7 @@ function renderPair() {
       <button class="big-button" id="shareBtn">Share link</button>
       <button class="secondary" id="copyBtn">Copy link</button>
       
+      <input type="text" placeholder="Your name" id="nameInput" maxlength="20" style="letter-spacing:1px; margin-bottom:8px;">
       <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="6" inputmode="numeric">
       <button class="big-button" id="joinBtn">Connect with code</button>
       <button class="secondary" onclick="go('main')">Go to app</button>
@@ -594,7 +596,13 @@ function renderPair() {
     }).catch(() => showToast("Copy failed"));
   };
 
+  document.getElementById("nameInput").onchange = (e) => {
+    state.myName = e.target.value.trim();
+    save();
+  };
   document.getElementById("joinBtn").onclick = () => {
+    state.myName = document.getElementById("nameInput").value.trim();
+    save();
     const code = document.getElementById("codeInput").value.trim();
     if (code.length === 6 && code !== state.myCode) {
       state.paired = true;
