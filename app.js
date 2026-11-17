@@ -348,6 +348,15 @@ function renderLanding() {
       <button class="big-button" id="tryBtn" style="margin-bottom:8px;">Try free for 7 days</button>
       <button class="secondary" id="payBtn">Or start for $1.99/mo</button>
       <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private. No account needed.</p>
+      
+      <div style="text-align:left; background:#111; border-radius:14px; padding:14px 16px; margin-top:20px; font-size:14px; line-height:1.5;">
+        <p style="color:#888; margin-bottom:8px; font-weight:600;">FAQ</p>
+        <p style="margin-bottom:6px;"><strong>Does my partner pay?</strong> No. One person pays. Both get it.</p>
+        <p style="margin-bottom:6px;"><strong>Do they need an account?</strong> No. Just open the link.</p>
+        <p style="margin-bottom:6px;"><strong>Works on iPhone and Android?</strong> Yes. Opens in the browser.</p>
+        <p style="margin-bottom:0;"><strong>What do you store?</strong> Just the messages between you two. No ads, no tracking.</p>
+      </div>
+      
       <div style="margin-top:18px; padding-top:14px; border-top:1px solid #222;">
         <p style="font-size:13px; color:#888; margin-bottom:6px;">Already paid? Enter your code</p>
         <input type="text" id="restoreInput" placeholder="5-digit code" maxlength="5" inputmode="numeric" style="margin:0 0 8px; letter-spacing:2px;">
