@@ -30,6 +30,9 @@ export default async (req) => {
       let pair = pairs.get(code) || { events: [], users: [] };
 
       if (from && !pair.users.includes(from)) {
+        if (pair.users.length >= 2) {
+          return new Response(JSON.stringify({ error: "pair full" }), { status: 403, headers });
+        }
         pair.users.push(from);
       }
 
@@ -63,3 +66,4 @@ export default async (req) => {
 export const config = {
   path: "/api/pair",
 };
+}
