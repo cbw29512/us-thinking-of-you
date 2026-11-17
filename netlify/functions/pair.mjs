@@ -1,6 +1,5 @@
-import { getStore } from "@netlify/blobs";
-
-const store = getStore("us-pairs");
+// Simple in-memory store for testing (resets on cold start)
+const pairs = new Map();
 
 export default async (req) => {
   if (req.method === "OPTIONS") {
@@ -28,8 +27,7 @@ export default async (req) => {
 
       if (!code) return new Response(JSON.stringify({ error: "missing code" }), { status: 400, headers });
 
-      const key = `pair:${code}`;
-      let pair = await store.get(key, { type: "json" }) || { events: [], users: [] };
+      let pair = pairs.get(code) || { events: [], users: [] };
 
       if (from && !pair.users.includes(from)) {
         pair.users.push(from);
@@ -47,13 +45,12 @@ export default async (req) => {
         if (pair.events.length > 20) pair.events = pair.events.slice(-20);
       }
 
-      await store.setJSON(key, pair);
+      pairs.set(code, pair);
       return new Response(JSON.stringify({ ok: true, pair }), { headers });
     }
 
     if (req.method === "GET" && code) {
-      const key = `pair:${code}`;
-      const pair = await store.get(key, { type: "json" }) || { events: [], users: [] };
+      const pair = pairs.get(code) || { events: [], users: [] };
       return new Response(JSON.stringify(pair), { headers });
     }
 
