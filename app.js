@@ -471,6 +471,7 @@ function renderMain() {
         </div>
         <div class="status" id="rpsStatus" style="margin-top:6px; font-size:14px;">Pick one</div>
       </div>
+      <button class="secondary" id="notifyBtn" style="margin-top:8px; font-size:13px;">Enable notifications</button>
     </div>
   `;
 
@@ -507,6 +508,16 @@ function renderMain() {
       }
     };
   });
+
+  document.getElementById("notifyBtn").onclick = async () => {
+    const perm = await Notification.requestPermission();
+    if (perm === "granted") {
+      showToast("Notifications on");
+      subscribePush();
+    } else {
+      showToast("Notifications blocked");
+    }
+  };
 
   setTimeout(showInstallBanner, 3000);
 }
