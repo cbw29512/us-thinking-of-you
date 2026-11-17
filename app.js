@@ -481,7 +481,6 @@ function renderMain() {
           <button class="affirm" data-msg="You got this" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">You got this</button>
           <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Thinking of you</button>
           <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Miss you</button>
-          <button class="affirm" data-msg="Love you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Love you</button>
         </div>
       </div>
 
