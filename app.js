@@ -200,9 +200,9 @@ function handleIncoming(event) {
     vibrate(30);
   } else if (event.type === "rps") {
     state.partnerChoice = event.payload?.choice;
-    showToast("They want to play RPS!");
+    showToast("They played!");
     vibrate([40, 30, 40]);
-    if (state.myChoice) {
+    if (state.myChoice && state.partnerChoice) {
       state.screen = "result";
       render();
     } else {
