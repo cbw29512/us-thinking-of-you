@@ -162,7 +162,7 @@ function startPolling() {
       if (others.length > 0 && !state.paired) {
         state.paired = true;
         save();
-        showToast("Connected");
+        showToast("Connected!");
         state.screen = "main";
         render();
       }
@@ -376,7 +376,7 @@ function renderMain() {
           <h1 style="font-size:20px; margin:0;">OurHearts</h1>
           <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
         </div>
-        <p class="subtitle" style="margin:2px 0 10px; font-size:12.5px;">${state.paired ? "Connected" : "Waiting for them..."}</p>
+        <p class="subtitle" style="margin:2px 0 10px; font-size:12.5px;">${state.paired ? "\u2713 Connected" : "Waiting for them..."}</p>
 
         <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:96px; width:96px; font-size:40px; margin:6px auto;">❤️</button>
         <div class="status" id="heartStatus" style="margin-top:2px; font-size:12.5px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
