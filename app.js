@@ -198,6 +198,8 @@ function handleIncoming(event) {
     vibrate([100, 50, 100, 50, 200]);
     const status = document.getElementById("heartStatus");
     if (status) status.textContent = "I love you \u2764\ufe0f";
+    const heartsEl = document.querySelector("p[style*='Hearts:']");
+    if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
     explodeHearts();
   } else if (event.type === "mood") {
     showToast(`${event.payload?.name || "They"} is feeling ${event.payload?.mood || "something"}`);
@@ -530,6 +532,8 @@ function sendHeart() {
   state.heartCount = (state.heartCount || 0) + 1;
   save();
   status.textContent = "I love you sent \u2764\ufe0f";
+  const heartsEl = document.querySelector("p[style*='Hearts:']");
+  if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
   showToast("I love you sent");
   sendEvent("heart", { count: state.heartCount });
   setTimeout(() => {
