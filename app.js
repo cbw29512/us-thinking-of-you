@@ -327,12 +327,12 @@ function renderLanding() {
         Feel closer during the day. One tap, no chat required.
       </p>
       
-      <img src="phones.jpg" alt="Two phones showing the app" style="width:100%; max-width:300px; border-radius:14px; margin-bottom:16px;">
+      <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 18px; width:100%; max-width:320px; border-radius:14px;">
       
-      <div style="text-align:left; background:#141414; border-radius:14px; padding:12px 14px; margin-bottom:14px;">
-        <p style="font-size:13px; margin-bottom:8px; line-height:1.35;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
-        <p style="font-size:13px; margin-bottom:8px; line-height:1.35;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
-        <p style="font-size:13px; margin-bottom:0; line-height:1.35;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
+      <div style="text-align:left; background:#141414; border-radius:14px; padding:14px 16px; margin-bottom:16px;">
+        <p style="font-size:15px; margin-bottom:10px; line-height:1.4;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
+        <p style="font-size:15px; margin-bottom:10px; line-height:1.4;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
+        <p style="font-size:15px; margin-bottom:0; line-height:1.4;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
       </div>
       
       <p style="font-size:13px; color:#888; margin-bottom:10px;">
