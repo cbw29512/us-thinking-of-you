@@ -1,7 +1,7 @@
 {
-  "name": "Us — Thinking of You",
-  "short_name": "Us",
-  "description": "A little something for the two of you",
+  "name": "OurHearts",
+  "short_name": "OurHearts",
+  "description": "A tiny app for two people who want to feel closer",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
