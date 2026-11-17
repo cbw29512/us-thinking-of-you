@@ -93,6 +93,12 @@ function load() {
   }
   if (localStorage.getItem("us-paid") === "1") state.paid = true;
 
+  const trialStart = localStorage.getItem("us-trial-start");
+  if (trialStart) {
+    const days = (Date.now() - parseInt(trialStart)) / (1000 * 60 * 60 * 24);
+    if (days < 7) state.paid = true;
+  }
+
   const pairCode = params.get("pair");
   if (pairCode && pairCode.length === 5) {
     state.paid = true;
@@ -338,16 +344,21 @@ function renderLanding() {
       <p style="font-size:15px; color:#999; margin-bottom:12px;">
         One person pays. Both of you get it.
       </p>
-      <button class="big-button" id="tryBtn" style="background:#1c1c1c; border:1px solid #333; margin-bottom:8px;">Try the heart free</button>
+      <button class="big-button" id="tryBtn" style="background:#1c1c1c; border:1px solid #333; margin-bottom:8px;">Start 7-day free trial</button>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
       <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private.</p>
     </div>
   `;
 
   document.getElementById("tryBtn").onclick = () => {
-    explodeHearts();
-    showToast("That's the heart");
-    vibrate(40);
+    if (!localStorage.getItem("us-trial-start")) {
+      localStorage.setItem("us-trial-start", Date.now().toString());
+    }
+    state.paid = true;
+    state.screen = "pair";
+    save();
+    showToast("7-day trial started");
+    render();
   };
 
   document.getElementById("payBtn").onclick = async () => {
