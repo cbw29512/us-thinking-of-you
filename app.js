@@ -12,6 +12,8 @@ let state = {
   sharedCode: null,
   partnerName: "them",
   myName: "",
+  startDate: null,
+  heartCount: 0,
   screen: "main",
   myChoice: null,
   partnerChoice: null,
@@ -191,6 +193,7 @@ function startPolling() {
 function handleIncoming(event) {
   if (event.type === "presence") return;
   if (event.type === "heart") {
+    if (event.payload?.count) state.heartCount = Math.max(state.heartCount || 0, event.payload.count);
     showToast("I love you \u2764\ufe0f");
     vibrate([100, 50, 100, 50, 200]);
     const status = document.getElementById("heartStatus");
@@ -445,36 +448,37 @@ function renderMain() {
   ];
 
   app.innerHTML = `
-    <div class="screen" style="padding:20px 20px 16px; justify-content:space-between; max-width:420px; margin:0 auto; width:100%;">
+    <div class="screen" style="padding:16px 18px 12px; justify-content:space-between; max-width:420px; margin:0 auto; width:100%;">
       <div style="text-align:center;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h1 style="font-size:22px; margin:0;">OurHearts</h1>
+          <h1 style="font-size:20px; margin:0;">OurHearts</h1>
           <div style="display:flex; gap:6px;">
-            <button class="secondary" style="width:auto; padding:8px 12px; margin:0; font-size:13px;" onclick="go('settings')">Settings</button>
-            <button class="secondary" style="width:auto; padding:8px 12px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
+            <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('settings')">Settings</button>
+            <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
           </div>
         </div>
-        <p class="subtitle" style="margin:6px 0 16px; font-size:14px;">${state.paired ? "\u2713 Connected" : "Waiting for them..."}</p>
+        <p class="subtitle" style="margin:4px 0 4px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${state.startDate ? " \u00b7 Day " + Math.floor((Date.now() - new Date(state.startDate).getTime()) / 86400000) : ""}</p>
+        <p style="font-size:12px; color:#888; margin:0 0 8px;">Hearts: ${state.heartCount || 0}</p>
 
-        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:120px; width:120px; font-size:48px; margin:10px auto;">\u2764\ufe0f</button>
-        <div class="status" id="heartStatus" style="margin-top:8px; font-size:14px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
+        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:6px auto;">\u2764\ufe0f</button>
+        <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
       </div>
 
       <div>
-        <div style="font-size:13px; color:#888; margin-bottom:8px; text-align:center;">How are you?</div>
-        <div class="mood-grid" style="gap:6px; margin:0;">
-          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:12px 6px; font-size:14px;">${m.label}</button>`).join("")}
+        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">How are you?</div>
+        <div class="mood-grid" style="gap:5px; margin:0;">
+          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:10px 4px; font-size:13px;">${m.label}</button>`).join("")}
         </div>
       </div>
 
       <div>
-        <div style="font-size:13px; color:#888; margin-bottom:8px; text-align:center;">Rock Paper Scissors</div>
-        <div class="choice-grid" style="gap:8px; margin:0;">
-          <button class="choice-btn" data-choice="rock" style="font-size:34px; padding:16px;">\u270a</button>
-          <button class="choice-btn" data-choice="paper" style="font-size:34px; padding:16px;">\u270b</button>
-          <button class="choice-btn" data-choice="scissors" style="font-size:34px; padding:16px;">\u270c\ufe0f</button>
+        <div style="font-size:12px; color:#888; margin-bottom:6px; text-align:center;">Rock Paper Scissors</div>
+        <div class="choice-grid" style="gap:6px; margin:0;">
+          <button class="choice-btn" data-choice="rock" style="font-size:30px; padding:12px;">\u270a</button>
+          <button class="choice-btn" data-choice="paper" style="font-size:30px; padding:12px;">\u270b</button>
+          <button class="choice-btn" data-choice="scissors" style="font-size:30px; padding:12px;">\u270c\ufe0f</button>
         </div>
-        <div class="status" id="rpsStatus" style="margin-top:6px; font-size:14px;">Pick one</div>
+        <div class="status" id="rpsStatus" style="margin-top:4px; font-size:13px;">Pick one</div>
       </div>
     </div>
   `;
@@ -523,10 +527,11 @@ function sendHeart() {
   setTimeout(() => btn.classList.remove("sent"), 400);
   vibrate(45);
   state.lastHeart = Date.now();
+  state.heartCount = (state.heartCount || 0) + 1;
   save();
   status.textContent = "I love you sent \u2764\ufe0f";
   showToast("I love you sent");
-  sendEvent("heart");
+  sendEvent("heart", { count: state.heartCount });
   setTimeout(() => {
     if (document.getElementById("heartStatus")) {
       document.getElementById("heartStatus").textContent = "Heart sent";
@@ -540,12 +545,15 @@ function renderSettings() {
       <h1>Settings</h1>
       <p class="subtitle">Change your name. It shows when you send a mood.</p>
       <input type="text" id="settingsName" placeholder="Your name" maxlength="20" value="${state.myName || ""}" style="letter-spacing:1px;">
+      <p style="font-size:13px; color:#888; margin:12px 0 4px;">Together since</p>
+      <input type="date" id="startDate" value="${state.startDate || ""}">
       <button class="big-button" id="saveName">Save</button>
       <button class="secondary" onclick="go('main')">Back</button>
     </div>
   `;
   document.getElementById("saveName").onclick = () => {
     state.myName = document.getElementById("settingsName").value.trim();
+    state.startDate = document.getElementById("startDate").value || null;
     save();
     showToast("Saved");
     state.screen = "main";
