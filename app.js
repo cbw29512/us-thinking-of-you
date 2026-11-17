@@ -338,8 +338,9 @@ function renderLanding() {
       <div style="text-align:left; background:#141414; border-radius:16px; padding:16px 18px; margin-bottom:18px;">
         <p style="font-size:14px; color:#888; margin-bottom:10px; font-weight:600;">How it works</p>
         <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>1. Pair up</strong> \u2014 send them a link. They open it. No account.</p>
-        <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>2. Tap</strong> \u2014 send a heart, a mood, or rock-paper-scissors.</p>
-        <p style="font-size:16px; margin-bottom:0; line-height:1.45;"><strong>3. They feel it</strong> \u2014 their screen fills with hearts.</p>
+        <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>2. Tap the heart</strong> \u2014 their screen fills with hearts and says \u201cI love you.\u201d</p>
+        <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>3. Share a mood</strong> \u2014 tired, miss you, need a hug. One tap.</p>
+        <p style="font-size:16px; margin-bottom:0; line-height:1.45;"><strong>4. Rock paper scissors</strong> \u2014 decide dinner without texting.</p>
       </div>
       
       <p style="font-size:15px; color:#999; margin-bottom:12px;">
