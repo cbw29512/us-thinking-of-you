@@ -25,12 +25,12 @@ let deferredPrompt = null;
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  showInstallBanner();
 });
 
 function showInstallBanner() {
   if (document.getElementById("install-banner")) return;
   if (window.matchMedia("(display-mode: standalone)").matches) return;
+  if (!state.paid) return;
 
   const banner = document.createElement("div");
   banner.id = "install-banner";
@@ -323,14 +323,14 @@ function renderLanding() {
     <div class="screen" style="justify-content:center; text-align:center; padding:24px 22px 20px;">
       <div style="font-size:32px; margin-bottom:4px;">❤️</div>
       <h1 style="font-size:36px; margin-bottom:8px; letter-spacing:-0.5px;">OurHearts</h1>
-      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:16px; max-width:300px; margin-left:auto; margin-right:auto;">
-        Feel closer during the day. One tap, no chat required.
+      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:16px; max-width:320px; margin-left:auto; margin-right:auto;">
+        For long-distance couples. One tap, no chat required.
       </p>
       
       <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 20px; width:100%; max-width:340px; border-radius:14px;">
       
       <div style="text-align:left; background:#141414; border-radius:16px; padding:16px 18px; margin-bottom:18px;">
-        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
+        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Tap the heart</strong> — their screen fills with hearts and says “I love you.”</p>
         <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
         <p style="font-size:17px; margin-bottom:0; line-height:1.45;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
       </div>
@@ -338,10 +338,17 @@ function renderLanding() {
       <p style="font-size:15px; color:#999; margin-bottom:12px;">
         One person pays. Both of you get it.
       </p>
+      <button class="big-button" id="tryBtn" style="background:#1c1c1c; border:1px solid #333; margin-bottom:8px;">Try the heart free</button>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private. Works on any phone.</p>
+      <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private.</p>
     </div>
   `;
+
+  document.getElementById("tryBtn").onclick = () => {
+    explodeHearts();
+    showToast("That's the heart");
+    vibrate(40);
+  };
 
   document.getElementById("payBtn").onclick = async () => {
     const btn = document.getElementById("payBtn");
@@ -437,6 +444,8 @@ function renderMain() {
       }
     };
   });
+
+  setTimeout(showInstallBanner, 3000);
 }
 
 function sendHeart() {
@@ -588,10 +597,6 @@ window.go = function(screen) {
   state.screen = screen;
   render();
 };
-
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-  setTimeout(showInstallBanner, 2000);
-}
 
 load();
 if (state.paired || state.sharedCode) startPolling();
