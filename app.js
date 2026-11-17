@@ -591,6 +591,7 @@ function renderSettings() {
       <input type="date" id="startDate" value="${state.startDate || ""}">
       <button class="big-button" id="saveName">Save</button>
       <button class="secondary" id="resetCount">Reset heart count</button>
+      <button class="secondary" id="startOver" style="color:#e63946;">Start over with someone new</button>
       <button class="secondary" id="clearPair" style="color:#e63946;">Clear pairing</button>
       <button class="secondary" onclick="go('main')">Back</button>
     </div>
@@ -615,6 +616,23 @@ function renderSettings() {
       state.sharedCode = null;
       save();
       showToast("Pairing cleared");
+      state.screen = "pair";
+      render();
+    }
+  };
+  document.getElementById("startOver").onclick = () => {
+    if (confirm("Start over with someone new? This ends the current connection and resets your heart count and date.")) {
+      state.paired = false;
+      state.partnerCode = null;
+      state.sharedCode = null;
+      state.myCode = generateCode();
+      state.heartCount = 0;
+      state.startDate = null;
+      state.lastReceived = "";
+      state.lastHeart = null;
+      state.lastMood = null;
+      save();
+      showToast("Ready for someone new");
       state.screen = "pair";
       render();
     }
