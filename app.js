@@ -67,6 +67,8 @@ function showInstallBanner() {
         banner.remove();
       }
       deferredPrompt = null;
+    } else {
+      alert("To add to home screen:\n\nChrome: Menu (\u22ee) \u2192 Add to Home screen\nSafari: Share button \u2192 Add to Home Screen");
     }
   };
 
