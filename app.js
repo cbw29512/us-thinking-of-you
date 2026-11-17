@@ -332,6 +332,7 @@ function render() {
   }
   if (state.screen === "main") renderMain();
   else if (state.screen === "pair") renderPair();
+  else if (state.screen === "settings") renderSettings();
   else if (state.screen === "result") renderResult();
 }
 
@@ -448,7 +449,10 @@ function renderMain() {
       <div style="text-align:center;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h1 style="font-size:22px; margin:0;">OurHearts</h1>
-          <button class="secondary" style="width:auto; padding:8px 14px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
+          <div style="display:flex; gap:6px;">
+            <button class="secondary" style="width:auto; padding:8px 12px; margin:0; font-size:13px;" onclick="go('settings')">Settings</button>
+            <button class="secondary" style="width:auto; padding:8px 12px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
+          </div>
         </div>
         <p class="subtitle" style="margin:6px 0 16px; font-size:14px;">${state.paired ? "\u2713 Connected" : "Waiting for them..."}</p>
 
@@ -528,6 +532,25 @@ function sendHeart() {
       document.getElementById("heartStatus").textContent = "Heart sent";
     }
   }, 1400);
+}
+
+function renderSettings() {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>Settings</h1>
+      <p class="subtitle">Change your name. It shows when you send a mood.</p>
+      <input type="text" id="settingsName" placeholder="Your name" maxlength="20" value="${state.myName || ""}" style="letter-spacing:1px;">
+      <button class="big-button" id="saveName">Save</button>
+      <button class="secondary" onclick="go('main')">Back</button>
+    </div>
+  `;
+  document.getElementById("saveName").onclick = () => {
+    state.myName = document.getElementById("settingsName").value.trim();
+    save();
+    showToast("Saved");
+    state.screen = "main";
+    render();
+  };
 }
 
 function renderPair() {
