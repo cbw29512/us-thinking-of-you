@@ -187,20 +187,27 @@ function startPolling() {
 function handleIncoming(event) {
   if (event.type === "presence") return;
   if (event.type === "heart") {
-    showToast("I love you ❤️");
+    showToast("I love you \u2764\ufe0f");
     vibrate([60, 40, 60, 40, 60]);
     const status = document.getElementById("heartStatus");
-    if (status) status.textContent = "I love you ❤️";
+    if (status) status.textContent = "I love you \u2764\ufe0f";
     explodeHearts();
   } else if (event.type === "mood") {
     showToast(`They're feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
   } else if (event.type === "rps") {
     state.partnerChoice = event.payload?.choice;
-    showToast("They played RPS");
+    showToast("They want to play RPS!");
+    vibrate([40, 30, 40]);
     if (state.myChoice) {
       state.screen = "result";
       render();
+    } else {
+      const status = document.getElementById("rpsStatus");
+      if (status) {
+        status.textContent = "They played! Pick one";
+        status.classList.add("waiting");
+      }
     }
   } else if (event.type === "dice") {
     showToast(`They rolled a ${event.payload?.result}`);
@@ -229,7 +236,7 @@ function flashScreen(color) {
 function explodeHearts() {
   for (let i = 0; i < 24; i++) {
     const h = document.createElement("div");
-    h.textContent = "❤️";
+    h.textContent = "\u2764\ufe0f";
     h.style.cssText = `
       position: fixed;
       left: ${Math.random() * 90}%;
@@ -327,7 +334,7 @@ function render() {
 function renderLanding() {
   app.innerHTML = `
     <div class="screen" style="justify-content:center; text-align:center; padding:24px 22px 20px;">
-      <div style="font-size:32px; margin-bottom:4px;">❤️</div>
+      <div style="font-size:32px; margin-bottom:4px;">\u2764\ufe0f</div>
       <h1 style="font-size:36px; margin-bottom:8px; letter-spacing:-0.5px;">OurHearts</h1>
       <p style="font-size:18px; color:#ddd; line-height:1.4; margin-bottom:18px; max-width:340px; margin-left:auto; margin-right:auto;">
         A one-tap way to tell your partner you\u2019re thinking of them.
@@ -611,6 +618,12 @@ function renderPair() {
   };
 }
 
+function resetRps() {
+  state.myChoice = null;
+  state.partnerChoice = null;
+  save();
+}
+
 function renderResult() {
   const mine = state.myChoice;
   const theirs = state.partnerChoice;
@@ -642,7 +655,7 @@ function renderResult() {
         <div>${icons[mine]}<small>You</small></div>
         <div>${icons[theirs]}<small>Them</small></div>
       </div>
-      <button class="big-button" onclick="go('main')">Done</button>
+      <button class="big-button" onclick="resetRps(); go('main')">Done</button>
     </div>
   `;
 
