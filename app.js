@@ -471,7 +471,6 @@ function renderMain() {
         </div>
         <div class="status" id="rpsStatus" style="margin-top:6px; font-size:14px;">Pick one</div>
       </div>
-      <button class="secondary" id="notifyBtn" style="margin-top:8px; font-size:13px;">Enable notifications</button>
     </div>
   `;
 
@@ -508,16 +507,6 @@ function renderMain() {
       }
     };
   });
-
-  document.getElementById("notifyBtn").onclick = async () => {
-    const perm = await Notification.requestPermission();
-    if (perm === "granted") {
-      showToast("Notifications on");
-      subscribePush();
-    } else {
-      showToast("Notifications blocked");
-    }
-  };
 
   setTimeout(showInstallBanner, 3000);
 }
@@ -681,6 +670,14 @@ window.go = function(screen) {
 load();
 if (state.paired || state.sharedCode) startPolling();
 render();
+
+if (state.paired && "Notification" in window && Notification.permission === "default") {
+  setTimeout(() => {
+    if (confirm("Get notified when they send a heart or want to play?")) {
+      Notification.requestPermission().then(p => { if (p === "granted") subscribePush(); });
+    }
+  }, 1500);
+}
 
 async function subscribePush() {
   if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
