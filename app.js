@@ -320,26 +320,26 @@ function render() {
 
 function renderLanding() {
   app.innerHTML = `
-    <div class="screen" style="justify-content:center; text-align:center; padding:20px 20px 16px;">
-      <div style="font-size:28px; margin-bottom:2px;">❤️</div>
-      <h1 style="font-size:28px; margin-bottom:6px; letter-spacing:-0.5px;">OurHearts</h1>
-      <p style="font-size:14.5px; color:#999; line-height:1.35; margin-bottom:14px; max-width:280px; margin-left:auto; margin-right:auto;">
+    <div class="screen" style="justify-content:center; text-align:center; padding:24px 22px 20px;">
+      <div style="font-size:32px; margin-bottom:4px;">❤️</div>
+      <h1 style="font-size:36px; margin-bottom:8px; letter-spacing:-0.5px;">OurHearts</h1>
+      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:16px; max-width:300px; margin-left:auto; margin-right:auto;">
         Feel closer during the day. One tap, no chat required.
       </p>
       
-      <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 18px; width:100%; max-width:320px; border-radius:14px;">
+      <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 20px; width:100%; max-width:340px; border-radius:14px;">
       
-      <div style="text-align:left; background:#141414; border-radius:14px; padding:14px 16px; margin-bottom:16px;">
-        <p style="font-size:15px; margin-bottom:10px; line-height:1.4;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
-        <p style="font-size:15px; margin-bottom:10px; line-height:1.4;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
-        <p style="font-size:15px; margin-bottom:0; line-height:1.4;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
+      <div style="text-align:left; background:#141414; border-radius:16px; padding:16px 18px; margin-bottom:18px;">
+        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Tap the heart</strong> — their phone fills with hearts and vibrates “I love you.”</p>
+        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
+        <p style="font-size:17px; margin-bottom:0; line-height:1.45;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
       </div>
       
-      <p style="font-size:13px; color:#888; margin-bottom:10px;">
+      <p style="font-size:15px; color:#999; margin-bottom:12px;">
         One person pays. Both of you get it.
       </p>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:11.5px; color:#555; margin-top:8px;">No ads. Private. Works on any phone.</p>
+      <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private. Works on any phone.</p>
     </div>
   `;
 
