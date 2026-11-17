@@ -173,10 +173,13 @@ function startPolling() {
         render();
       }
 
+      const now = Date.now();
       for (const event of pair.events) {
         if (event.from === myId) continue;
-        if (event.id <= (state.lastSeenEvent || 0)) continue;
-        state.lastSeenEvent = event.id;
+        // Process events from the last 30 seconds even if lastSeen is high
+        if (event.id <= (state.lastSeenEvent || 0) && (now - event.at) > 30000) continue;
+        if (event.id > (state.lastSeenEvent || 0)) state.lastSeenEvent = event.id;
+        console.log("incoming", event.type, event.id);
         handleIncoming(event);
       }
       save();
