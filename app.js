@@ -14,6 +14,8 @@ let state = {
   myName: "",
   startDate: null,
   heartCount: 0,
+  lastReceived: "",
+  todayStreak: false,
   screen: "main",
   myChoice: null,
   partnerChoice: null,
@@ -202,11 +204,17 @@ function handleIncoming(event) {
     if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
     explodeHearts();
   } else if (event.type === "note") {
-    showToast(`${event.payload?.name || "They"}: ${event.payload?.text || ""}`);
+    state.lastReceived = `${event.payload?.name || "They"}: ${event.payload?.text || ""}`;
+    showToast(state.lastReceived);
     vibrate(40);
+    const lr = document.getElementById("lastReceived");
+    if (lr) lr.textContent = state.lastReceived;
   } else if (event.type === "mood") {
-    showToast(`${event.payload?.name || "They"} is feeling ${event.payload?.mood || "something"}`);
+    state.lastReceived = `${event.payload?.name || "They"} is feeling ${event.payload?.mood || "something"}`;
+    showToast(state.lastReceived);
     vibrate(30);
+    const lr = document.getElementById("lastReceived");
+    if (lr) lr.textContent = state.lastReceived;
   } else if (event.type === "rps") {
     state.partnerChoice = event.payload?.choice;
     showToast("They played!");
@@ -462,15 +470,18 @@ function renderMain() {
             <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
           </div>
         </div>
-        <p class="subtitle" style="margin:4px 0 4px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${state.startDate ? " \u00b7 Day " + Math.floor((Date.now() - new Date(state.startDate).getTime()) / 86400000) : ""}</p>
+        <p class="subtitle" style="margin:4px 0 4px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${(() => { if (!state.startDate) return ""; const d = new Date(state.startDate); if (isNaN(d)) return ""; const days = Math.floor((Date.now() - d.getTime()) / 86400000); return days >= 0 && days < 10000 ? " \u00b7 Day " + days : ""; })()}</p>
         <p id="heartsCount" style="font-size:12px; color:#888; margin:0 0 8px;">Hearts: ${state.heartCount || 0}</p>
 
         <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:6px auto;">\u2764\ufe0f</button>
         <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
+        <p id="lastReceived" style="font-size:12px; color:#aaa; margin:4px 0 0; min-height:16px;">${state.lastReceived || ""}</p>
         <div style="display:flex; gap:6px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
           <button class="affirm" data-msg="Proud of you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Proud of you</button>
           <button class="affirm" data-msg="You got this" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">You got this</button>
           <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Thinking of you</button>
+          <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Miss you</button>
+          <button class="affirm" data-msg="Love you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Love you</button>
         </div>
       </div>
 
@@ -569,6 +580,8 @@ function renderSettings() {
       <p style="font-size:13px; color:#888; margin:12px 0 4px;">Together since</p>
       <input type="date" id="startDate" value="${state.startDate || ""}">
       <button class="big-button" id="saveName">Save</button>
+      <button class="secondary" id="resetCount">Reset heart count</button>
+      <button class="secondary" id="clearPair" style="color:#e63946;">Clear pairing</button>
       <button class="secondary" onclick="go('main')">Back</button>
     </div>
   `;
@@ -579,6 +592,22 @@ function renderSettings() {
     showToast("Saved");
     state.screen = "main";
     render();
+  };
+  document.getElementById("resetCount").onclick = () => {
+    state.heartCount = 0;
+    save();
+    showToast("Count reset");
+  };
+  document.getElementById("clearPair").onclick = () => {
+    if (confirm("Clear pairing? You'll need to share a new code.")) {
+      state.paired = false;
+      state.partnerCode = null;
+      state.sharedCode = null;
+      save();
+      showToast("Pairing cleared");
+      state.screen = "pair";
+      render();
+    }
   };
 }
 
@@ -720,6 +749,7 @@ function renderResult() {
   `;
 
   vibrate([25, 35, 25]);
+  setTimeout(() => { resetRps(); }, 4000);
 }
 
 window.go = function(screen) {
@@ -729,6 +759,12 @@ window.go = function(screen) {
 
 load();
 if (state.paired || state.sharedCode) startPolling();
+if (state.paid && !state.myName && state.screen === "main") {
+  setTimeout(() => {
+    const name = prompt("What's your name? (shows when you send a mood)");
+    if (name) { state.myName = name.trim(); save(); }
+  }, 800);
+}
 render();
 
 if (state.paired && "Notification" in window && Notification.permission === "default") {
