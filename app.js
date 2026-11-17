@@ -329,24 +329,25 @@ function renderLanding() {
     <div class="screen" style="justify-content:center; text-align:center; padding:24px 22px 20px;">
       <div style="font-size:32px; margin-bottom:4px;">❤️</div>
       <h1 style="font-size:36px; margin-bottom:8px; letter-spacing:-0.5px;">OurHearts</h1>
-      <p style="font-size:17px; color:#aaa; line-height:1.4; margin-bottom:16px; max-width:320px; margin-left:auto; margin-right:auto;">
-        For long-distance couples. One tap, no chat required.
+      <p style="font-size:18px; color:#ddd; line-height:1.4; margin-bottom:18px; max-width:340px; margin-left:auto; margin-right:auto;">
+        A one-tap way to tell your partner you\u2019re thinking of them.
       </p>
       
-      <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 20px; width:100%; max-width:340px; border-radius:14px;">
+      <img src="phones.jpg" alt="Two phones showing the app" style="display:block; margin:0 auto 22px; width:100%; max-width:360px; border-radius:14px;">
       
       <div style="text-align:left; background:#141414; border-radius:16px; padding:16px 18px; margin-bottom:18px;">
-        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Tap the heart</strong> — their screen fills with hearts and says “I love you.”</p>
-        <p style="font-size:17px; margin-bottom:12px; line-height:1.45;"><strong>Share a mood</strong> — tired, miss you, need a hug. One tap.</p>
-        <p style="font-size:17px; margin-bottom:0; line-height:1.45;"><strong>Quick rock paper scissors</strong> — decide dinner without texting.</p>
+        <p style="font-size:14px; color:#888; margin-bottom:10px; font-weight:600;">How it works</p>
+        <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>1. Pair up</strong> \u2014 send them a link. They open it. No account.</p>
+        <p style="font-size:16px; margin-bottom:10px; line-height:1.45;"><strong>2. Tap</strong> \u2014 send a heart, a mood, or rock-paper-scissors.</p>
+        <p style="font-size:16px; margin-bottom:0; line-height:1.45;"><strong>3. They feel it</strong> \u2014 their screen fills with hearts.</p>
       </div>
       
       <p style="font-size:15px; color:#999; margin-bottom:12px;">
-        One person pays. Both of you get it.
+        One person pays. Both of you get it. Cancel anytime.
       </p>
-      <button class="big-button" id="tryBtn" style="background:#1c1c1c; border:1px solid #333; margin-bottom:8px;">Start 7-day free trial</button>
-      <button class="big-button" id="payBtn">Start for $1.99/mo</button>
-      <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private.</p>
+      <button class="big-button" id="tryBtn" style="margin-bottom:8px;">Try free for 7 days</button>
+      <button class="secondary" id="payBtn">Or start for $1.99/mo</button>
+      <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private. No account needed.</p>
       <div style="margin-top:18px; padding-top:14px; border-top:1px solid #222;">
         <p style="font-size:13px; color:#888; margin-bottom:6px;">Already paid? Enter your code</p>
         <input type="text" id="restoreInput" placeholder="5-digit code" maxlength="5" inputmode="numeric" style="margin:0 0 8px; letter-spacing:2px;">
