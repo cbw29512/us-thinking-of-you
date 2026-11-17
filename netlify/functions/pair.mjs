@@ -1,5 +1,12 @@
-// Simple in-memory store for testing (resets on cold start)
+import webpush from "web-push";
+
 const pairs = new Map();
+
+webpush.setVapidDetails(
+  "mailto:divclass01@gmail.com",
+  "BDWXZ5nZn12ucAKX68uebBm5J9Q77llfrAowDxwzxqAPPnyx5HRdaUdTVedIbUzbu2nt3RLXbUQWI2jM-WNwu0E",
+  "ho13vMe5LLVO0n8AS1vVsY2LTNPhmEAmmYVLOntaK3w"
+);
 
 export default async (req) => {
   if (req.method === "OPTIONS") {
@@ -23,17 +30,21 @@ export default async (req) => {
 
     if (req.method === "POST") {
       const body = await req.json();
-      const { type, payload, from } = body;
+      const { type, payload, from, subscription } = body;
 
       if (!code) return new Response(JSON.stringify({ error: "missing code" }), { status: 400, headers });
 
-      let pair = pairs.get(code) || { events: [], users: [] };
+      let pair = pairs.get(code) || { events: [], users: [], subs: {} };
 
       if (from && !pair.users.includes(from)) {
         if (pair.users.length >= 2) {
           return new Response(JSON.stringify({ error: "pair full" }), { status: 403, headers });
         }
         pair.users.push(from);
+      }
+
+      if (subscription && from) {
+        pair.subs[from] = subscription;
       }
 
       if (type) {
@@ -46,6 +57,15 @@ export default async (req) => {
           at: Date.now(),
         });
         if (pair.events.length > 20) pair.events = pair.events.slice(-20);
+
+        const otherId = pair.users.find(u => u !== from);
+        if (otherId && pair.subs[otherId]) {
+          const title = type === "heart" ? "I love you" : type === "mood" ? "Mood" : type === "rps" ? "RPS" : "OurHearts";
+          const bodyText = type === "heart" ? "They sent a heart" : type === "mood" ? `Feeling ${payload?.mood || ""}` : type === "rps" ? "They want to play" : "New message";
+          try {
+            await webpush.sendNotification(pair.subs[otherId], JSON.stringify({ title, body: bodyText }));
+          } catch (e) {}
+        }
       }
 
       pairs.set(code, pair);
@@ -53,7 +73,7 @@ export default async (req) => {
     }
 
     if (req.method === "GET" && code) {
-      const pair = pairs.get(code) || { events: [], users: [] };
+      const pair = pairs.get(code) || { events: [], users: [], subs: {} };
       return new Response(JSON.stringify(pair), { headers });
     }
 
