@@ -470,13 +470,10 @@ function renderMain() {
         </div>
         <div class="status" id="rpsStatus" style="margin-top:6px; font-size:14px;">Pick one</div>
       </div>
-
-      <button class="secondary" id="diceBtn" style="margin-top:12px;">Roll d20</button>
     </div>
   `;
 
   document.getElementById("heartBtn").onclick = sendHeart;
-  document.getElementById("diceBtn").onclick = rollDice;
 
   document.querySelectorAll(".mood-btn").forEach(btn => {
     btn.onclick = () => {
