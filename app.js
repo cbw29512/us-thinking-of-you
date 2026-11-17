@@ -100,7 +100,7 @@ function load() {
   }
 
   const pairCode = params.get("pair");
-  if (pairCode && pairCode.length === 5) {
+  if (pairCode && pairCode.length === 6) {
     state.paid = true;
     localStorage.setItem("us-paid", "1");
     state.paired = true;
@@ -117,7 +117,7 @@ function save() {
 }
 
 function generateCode() {
-  return Math.floor(10000 + Math.random() * 90000).toString();
+  return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
 function vibrate(pattern = 40) {
@@ -176,7 +176,6 @@ function startPolling() {
       const now = Date.now();
       for (const event of pair.events) {
         if (event.from === myId) continue;
-        // Process events from the last 30 seconds even if lastSeen is high
         if (event.id <= (state.lastSeenEvent || 0) && (now - event.at) > 30000) continue;
         if (event.id > (state.lastSeenEvent || 0)) state.lastSeenEvent = event.id;
         console.log("incoming", event.type, event.id);
@@ -191,7 +190,7 @@ function handleIncoming(event) {
   if (event.type === "presence") return;
   if (event.type === "heart") {
     showToast("I love you \u2764\ufe0f");
-    vibrate([60, 40, 60, 40, 60]);
+    vibrate([100, 50, 100, 50, 200]);
     const status = document.getElementById("heartStatus");
     if (status) status.textContent = "I love you \u2764\ufe0f";
     explodeHearts();
@@ -370,7 +369,7 @@ function renderLanding() {
       
       <div style="margin-top:18px; padding-top:14px; border-top:1px solid #222;">
         <p style="font-size:13px; color:#888; margin-bottom:6px;">Already paid? Enter your code</p>
-        <input type="text" id="restoreInput" placeholder="5-digit code" maxlength="5" inputmode="numeric" style="margin:0 0 8px; letter-spacing:2px;">
+        <input type="text" id="restoreInput" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="margin:0 0 8px; letter-spacing:2px;">
         <button class="secondary" id="restoreBtn" style="margin:0;">Restore access</button>
       </div>
     </div>
@@ -389,11 +388,11 @@ function renderLanding() {
 
   document.getElementById("restoreBtn").onclick = () => {
     const code = document.getElementById("restoreInput").value.trim();
-    if (code === "00000") {
+    if (code === "000000") {
       state.paid = true;
       state.paired = true;
-      state.myCode = "00000";
-      state.sharedCode = "00000";
+      state.myCode = "000000";
+      state.sharedCode = "000000";
       state.screen = "main";
       localStorage.setItem("us-paid", "1");
       save();
@@ -402,7 +401,7 @@ function renderLanding() {
       render();
       return;
     }
-    if (code.length === 5) {
+    if (code.length === 6) {
       state.paid = true;
       state.myCode = code;
       state.sharedCode = code;
@@ -412,7 +411,7 @@ function renderLanding() {
       showToast("Restored");
       render();
     } else {
-      showToast("Enter a 5-digit code");
+      showToast("Enter a 6-digit code");
     }
   };
 
@@ -553,7 +552,7 @@ function renderPair() {
       <button class="big-button" id="shareBtn">Share link</button>
       <button class="secondary" id="copyBtn">Copy link</button>
       
-      <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="5" inputmode="numeric">
+      <input type="text" placeholder="Or enter their code" id="codeInput" maxlength="6" inputmode="numeric">
       <button class="big-button" id="joinBtn">Connect with code</button>
       <button class="secondary" onclick="go('main')">Go to app</button>
     </div>
@@ -599,7 +598,7 @@ function renderPair() {
 
   document.getElementById("joinBtn").onclick = () => {
     const code = document.getElementById("codeInput").value.trim();
-    if (code.length === 5 && code !== state.myCode) {
+    if (code.length === 6 && code !== state.myCode) {
       state.paired = true;
       state.partnerCode = code;
       state.sharedCode = code;
@@ -608,7 +607,7 @@ function renderPair() {
       state.screen = "main";
       startPolling();
       render();
-    } else if (code.length === 5 && code === state.myCode) {
+    } else if (code.length === 6 && code === state.myCode) {
       state.paired = true;
       state.sharedCode = code;
       showToast("Ready!");
@@ -616,7 +615,7 @@ function renderPair() {
       startPolling();
       render();
     } else {
-      showToast("Enter a valid 5-digit code");
+      showToast("Enter a valid 6-digit code");
     }
   };
 }
