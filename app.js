@@ -201,6 +201,9 @@ function handleIncoming(event) {
     const heartsEl = document.getElementById("heartsCount");
     if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
     explodeHearts();
+  } else if (event.type === "note") {
+    showToast(`${event.payload?.name || "They"}: ${event.payload?.text || ""}`);
+    vibrate(40);
   } else if (event.type === "mood") {
     showToast(`${event.payload?.name || "They"} is feeling ${event.payload?.mood || "something"}`);
     vibrate(30);
@@ -464,6 +467,11 @@ function renderMain() {
 
         <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:6px auto;">\u2764\ufe0f</button>
         <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
+        <div style="display:flex; gap:6px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+          <button class="affirm" data-msg="Proud of you" style="font-size:11px; padding:6px 10px; background:#1a1a1a; border:1px solid #333; border-radius:20px; color:#ddd;">Proud of you</button>
+          <button class="affirm" data-msg="You got this" style="font-size:11px; padding:6px 10px; background:#1a1a1a; border:1px solid #333; border-radius:20px; color:#ddd;">You got this</button>
+          <button class="affirm" data-msg="Thinking of you" style="font-size:11px; padding:6px 10px; background:#1a1a1a; border:1px solid #333; border-radius:20px; color:#ddd;">Thinking of you</button>
+        </div>
       </div>
 
       <div>
@@ -486,6 +494,15 @@ function renderMain() {
   `;
 
   document.getElementById("heartBtn").onclick = sendHeart;
+
+  document.querySelectorAll(".affirm").forEach(btn => {
+    btn.onclick = () => {
+      const msg = btn.dataset.msg;
+      vibrate(30);
+      showToast("Sent");
+      sendEvent("note", { text: msg, name: state.myName || "They" });
+    };
+  });
 
   document.querySelectorAll(".mood-btn").forEach(btn => {
     btn.onclick = () => {
