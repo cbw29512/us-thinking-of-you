@@ -20,7 +20,7 @@ body {
 
 #app {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   min-height: 100vh;
   min-height: 100dvh;
   background: linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%);
@@ -28,6 +28,12 @@ body {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  #app {
+    max-width: 720px;
+  }
 }
 
 .screen {
