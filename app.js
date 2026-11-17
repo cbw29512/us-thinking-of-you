@@ -433,36 +433,36 @@ function renderMain() {
   ];
 
   app.innerHTML = `
-    <div class="screen" style="padding:14px 16px 10px; justify-content:space-between;">
-      <div>
+    <div class="screen" style="padding:20px 20px 16px; justify-content:space-between; max-width:420px; margin:0 auto; width:100%;">
+      <div style="text-align:center;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h1 style="font-size:20px; margin:0;">OurHearts</h1>
-          <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
+          <h1 style="font-size:22px; margin:0;">OurHearts</h1>
+          <button class="secondary" style="width:auto; padding:8px 14px; margin:0; font-size:13px;" onclick="go('pair')">Pair</button>
         </div>
-        <p class="subtitle" style="margin:2px 0 10px; font-size:12.5px;">${state.paired ? "\u2713 Connected" : "Waiting for them..."}</p>
+        <p class="subtitle" style="margin:6px 0 16px; font-size:14px;">${state.paired ? "\u2713 Connected" : "Waiting for them..."}</p>
 
-        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:96px; width:96px; font-size:40px; margin:6px auto;">❤️</button>
-        <div class="status" id="heartStatus" style="margin-top:2px; font-size:12.5px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
+        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:120px; width:120px; font-size:48px; margin:10px auto;">\u2764\ufe0f</button>
+        <div class="status" id="heartStatus" style="margin-top:8px; font-size:14px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
       </div>
 
       <div>
-        <div style="font-size:11.5px; color:#888; margin-bottom:5px; text-align:center;">How are you?</div>
-        <div class="mood-grid" style="gap:5px; margin:0;">
-          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:9px 4px; font-size:12.5px;">${m.label}</button>`).join("")}
+        <div style="font-size:13px; color:#888; margin-bottom:8px; text-align:center;">How are you?</div>
+        <div class="mood-grid" style="gap:6px; margin:0;">
+          ${moods.map(m => `<button class="mood-btn ${state.lastMood === m.id ? 'selected' : ''}" data-mood="${m.id}" style="padding:12px 6px; font-size:14px;">${m.label}</button>`).join("")}
         </div>
       </div>
 
       <div>
-        <div style="font-size:11.5px; color:#888; margin-bottom:5px; text-align:center;">Rock Paper Scissors</div>
-        <div class="choice-grid" style="gap:6px; margin:0;">
-          <button class="choice-btn" data-choice="rock" style="font-size:30px;">✊</button>
-          <button class="choice-btn" data-choice="paper" style="font-size:30px;">✋</button>
-          <button class="choice-btn" data-choice="scissors" style="font-size:30px;">✌️</button>
+        <div style="font-size:13px; color:#888; margin-bottom:8px; text-align:center;">Rock Paper Scissors</div>
+        <div class="choice-grid" style="gap:8px; margin:0;">
+          <button class="choice-btn" data-choice="rock" style="font-size:34px; padding:16px;">\u270a</button>
+          <button class="choice-btn" data-choice="paper" style="font-size:34px; padding:16px;">\u270b</button>
+          <button class="choice-btn" data-choice="scissors" style="font-size:34px; padding:16px;">\u270c\ufe0f</button>
         </div>
-        <div class="status" id="rpsStatus" style="margin-top:2px; font-size:12.5px;">Pick one</div>
+        <div class="status" id="rpsStatus" style="margin-top:6px; font-size:14px;">Pick one</div>
       </div>
 
-      <button class="secondary" id="diceBtn" style="margin-top:8px;">Roll d20</button>
+      <button class="secondary" id="diceBtn" style="margin-top:12px;">Roll d20</button>
     </div>
   `;
 
@@ -512,7 +512,7 @@ function sendHeart() {
   vibrate(45);
   state.lastHeart = Date.now();
   save();
-  status.textContent = "I love you sent ❤️";
+  status.textContent = "I love you sent \u2764\ufe0f";
   showToast("I love you sent");
   sendEvent("heart");
   setTimeout(() => {
@@ -615,7 +615,7 @@ function renderResult() {
   const mine = state.myChoice;
   const theirs = state.partnerChoice;
   let outcome = "It's a tie";
-  let emoji = "🤝";
+  let emoji = "\ud83e\udd1d";
 
   if (mine === theirs) {
     outcome = "It's a tie";
@@ -625,13 +625,13 @@ function renderResult() {
     (mine === "scissors" && theirs === "paper")
   ) {
     outcome = "You win";
-    emoji = "🎉";
+    emoji = "\ud83c\udf89";
   } else {
     outcome = "They win";
-    emoji = "😅";
+    emoji = "\ud83d\ude05";
   }
 
-  const icons = { rock: "✊", paper: "✋", scissors: "✌️" };
+  const icons = { rock: "\u270a", paper: "\u270b", scissors: "\u270c\ufe0f" };
 
   app.innerHTML = `
     <div class="screen">
