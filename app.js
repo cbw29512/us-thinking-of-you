@@ -347,6 +347,11 @@ function renderLanding() {
       <button class="big-button" id="tryBtn" style="background:#1c1c1c; border:1px solid #333; margin-bottom:8px;">Start 7-day free trial</button>
       <button class="big-button" id="payBtn">Start for $1.99/mo</button>
       <p style="font-size:13px; color:#666; margin-top:10px;">No ads. Private.</p>
+      <div style="margin-top:18px; padding-top:14px; border-top:1px solid #222;">
+        <p style="font-size:13px; color:#888; margin-bottom:6px;">Already paid? Enter your code</p>
+        <input type="text" id="restoreInput" placeholder="5-digit code" maxlength="5" inputmode="numeric" style="margin:0 0 8px; letter-spacing:2px;">
+        <button class="secondary" id="restoreBtn" style="margin:0;">Restore access</button>
+      </div>
     </div>
   `;
 
@@ -359,6 +364,22 @@ function renderLanding() {
     save();
     showToast("7-day trial started");
     render();
+  };
+
+  document.getElementById("restoreBtn").onclick = () => {
+    const code = document.getElementById("restoreInput").value.trim();
+    if (code.length === 5) {
+      state.paid = true;
+      state.myCode = code;
+      state.sharedCode = code;
+      state.screen = "main";
+      localStorage.setItem("us-paid", "1");
+      save();
+      showToast("Restored");
+      render();
+    } else {
+      showToast("Enter a 5-digit code");
+    }
   };
 
   document.getElementById("payBtn").onclick = async () => {
@@ -485,12 +506,12 @@ function renderPair() {
   app.innerHTML = `
     <div class="screen">
       <h1>You're in</h1>
-      <p class="subtitle">Share the QR or link so they can join.</p>
+      <p class="subtitle">Share the QR or link so they can join. Save your code to restore later.</p>
       
       <div id="qrcode" style="margin: 20px auto; width: 180px; height: 180px; background: white; padding: 8px; border-radius: 12px;"></div>
       
       <div class="pair-code">${state.myCode}</div>
-      <p class="status">Your code</p>
+      <p class="status">Your code (save this)</p>
 
       <div style="background:#1a1a1a; border-radius:10px; padding:10px 12px; margin:16px 0; font-size:13px; word-break:break-all; color:#ccc;">
         ${pairUrl}
