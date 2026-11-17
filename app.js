@@ -87,6 +87,12 @@ function load() {
     if (saved) Object.assign(state, JSON.parse(saved));
   } catch (e) {}
   if (!state.myCode) state.myCode = generateCode();
+  if (state.startDate) {
+    const d = new Date(state.startDate);
+    if (isNaN(d) || (Date.now() - d.getTime()) / 86400000 > 10000 || (Date.now() - d.getTime()) < 0) {
+      state.startDate = null;
+    }
+  }
   if (!myId) myId = localStorage.getItem("us-my-id") || crypto.randomUUID();
   localStorage.setItem("us-my-id", myId);
 
@@ -477,10 +483,10 @@ function renderMain() {
         <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
         <p id="lastReceived" style="font-size:12px; color:#aaa; margin:4px 0 0; min-height:16px;">${state.lastReceived || ""}</p>
         <div style="display:flex; gap:6px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
-          <button class="affirm" data-msg="Proud of you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Proud of you</button>
-          <button class="affirm" data-msg="You got this" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">You got this</button>
-          <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Thinking of you</button>
-          <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:10px 14px; background:#222; border:1px solid #444; border-radius:12px; color:#eee; font-family:inherit; cursor:pointer;">Miss you</button>
+          <button class="affirm" data-msg="Proud of you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Proud of you</button>
+          <button class="affirm" data-msg="You got this" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">You got this</button>
+          <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Thinking of you</button>
+          <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Miss you</button>
         </div>
       </div>
 
@@ -508,6 +514,8 @@ function renderMain() {
   document.querySelectorAll(".affirm").forEach(btn => {
     btn.onclick = () => {
       const msg = btn.dataset.msg;
+      btn.style.background = "#e63946";
+      setTimeout(() => { btn.style.background = "#2a2a2a"; }, 300);
       vibrate(30);
       showToast("Sent");
       sendEvent("note", { text: msg, name: state.myName || "They" });
