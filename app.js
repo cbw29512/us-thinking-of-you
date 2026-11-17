@@ -467,7 +467,7 @@ function renderMain() {
   ];
 
   app.innerHTML = `
-    <div class="screen" style="padding:16px 18px 12px; justify-content:space-between; max-width:420px; margin:0 auto; width:100%;">
+    <div class="screen" style="padding:14px 16px 10px; justify-content:space-between; max-width:420px; margin:0 auto; width:100%;">
       <div style="text-align:center;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h1 style="font-size:20px; margin:0;">OurHearts</h1>
@@ -476,18 +476,21 @@ function renderMain() {
             <button class="secondary" style="width:auto; padding:6px 10px; margin:0; font-size:12px;" onclick="go('pair')">Pair</button>
           </div>
         </div>
-        <p class="subtitle" style="margin:4px 0 4px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${(() => { if (!state.startDate) return ""; const d = new Date(state.startDate); if (isNaN(d)) return ""; const days = Math.floor((Date.now() - d.getTime()) / 86400000); return days >= 0 && days < 10000 ? " \u00b7 Day " + days : ""; })()}</p>
+        <p class="subtitle" style="margin:2px 0 6px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${(() => { if (!state.startDate) return ""; const d = new Date(state.startDate); if (isNaN(d)) return ""; const days = Math.floor((Date.now() - d.getTime()) / 86400000); return days >= 0 && days < 10000 ? " \u00b7 Day " + days : ""; })()}</p>
         <p id="heartsCount" style="font-size:12px; color:#888; margin:0 0 8px;">Hearts: ${state.heartCount || 0}</p>
 
-        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:6px auto;">\u2764\ufe0f</button>
+        <div style="display:flex; gap:6px; justify-content:center; margin:4px 0 8px; flex-wrap:wrap;">
+          <button class="affirm" data-msg="Proud of you" style="font-size:13px; padding:10px 14px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Proud of you</button>
+          <button class="affirm" data-msg="You got this" style="font-size:13px; padding:10px 14px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">You got this</button>
+          <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:10px 14px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Thinking of you</button>
+          <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:10px 14px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Miss you</button>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:110px; width:110px; font-size:46px; margin:4px auto;">\u2764\ufe0f</button>
         <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
         <p id="lastReceived" style="font-size:12px; color:#aaa; margin:4px 0 0; min-height:16px;">${state.lastReceived || ""}</p>
-        <div style="display:flex; gap:6px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
-          <button class="affirm" data-msg="Proud of you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Proud of you</button>
-          <button class="affirm" data-msg="You got this" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">You got this</button>
-          <button class="affirm" data-msg="Thinking of you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Thinking of you</button>
-          <button class="affirm" data-msg="Miss you" style="font-size:13px; padding:11px 16px; background:#2a2a2a; border:1px solid #555; border-radius:14px; color:#fff; font-family:inherit; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.3);">Miss you</button>
-        </div>
       </div>
 
       <div>
