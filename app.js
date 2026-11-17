@@ -198,7 +198,7 @@ function handleIncoming(event) {
     vibrate([100, 50, 100, 50, 200]);
     const status = document.getElementById("heartStatus");
     if (status) status.textContent = "I love you \u2764\ufe0f";
-    const heartsEl = document.querySelector("p[style*='Hearts:']");
+    const heartsEl = document.getElementById("heartsCount");
     if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
     explodeHearts();
   } else if (event.type === "mood") {
@@ -460,7 +460,7 @@ function renderMain() {
           </div>
         </div>
         <p class="subtitle" style="margin:4px 0 4px; font-size:13px;">${state.paired ? "\u2713 Connected" : "Waiting..."} ${state.startDate ? " \u00b7 Day " + Math.floor((Date.now() - new Date(state.startDate).getTime()) / 86400000) : ""}</p>
-        <p style="font-size:12px; color:#888; margin:0 0 8px;">Hearts: ${state.heartCount || 0}</p>
+        <p id="heartsCount" style="font-size:12px; color:#888; margin:0 0 8px;">Hearts: ${state.heartCount || 0}</p>
 
         <button class="heart-button" id="heartBtn" aria-label="Thinking of you" style="height:100px; width:100px; font-size:42px; margin:6px auto;">\u2764\ufe0f</button>
         <div class="status" id="heartStatus" style="margin-top:4px; font-size:13px;">${state.lastHeart ? "Heart sent" : "Tap the heart"}</div>
@@ -532,7 +532,7 @@ function sendHeart() {
   state.heartCount = (state.heartCount || 0) + 1;
   save();
   status.textContent = "I love you sent \u2764\ufe0f";
-  const heartsEl = document.querySelector("p[style*='Hearts:']");
+  const heartsEl = document.getElementById("heartsCount");
   if (heartsEl) heartsEl.textContent = "Hearts: " + state.heartCount;
   showToast("I love you sent");
   sendEvent("heart", { count: state.heartCount });
