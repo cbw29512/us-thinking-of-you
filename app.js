@@ -670,3 +670,23 @@ window.go = function(screen) {
 load();
 if (state.paired || state.sharedCode) startPolling();
 render();
+
+async function subscribePush() {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: "BDWXZ5nZn12ucAKX68uebBm5J9Q77llfrAowDxwzxqAPPnyx5HRdaUdTVedIbUzbu2nt3RLXbUQWI2jM-WNwu0E"
+    });
+    const code = state.sharedCode || state.partnerCode || state.myCode;
+    if (code && sub) {
+      await fetch(`/api/pair?code=${code}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ from: myId, subscription: sub })
+      });
+    }
+  } catch (e) {}
+}
+setTimeout(subscribePush, 2000);
